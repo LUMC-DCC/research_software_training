@@ -2,6 +2,7 @@
 	import './layout.css';
 	import favicon from '$lib/assets/favicon.svg';
 	import { page } from '$app/state';
+	import { base } from '$app/paths';
 
 	let { children } = $props();
 	let isMobileMenuOpen = $state(false);
@@ -19,6 +20,10 @@
 	const closeMobileMenu = () => {
 		isMobileMenuOpen = false;
 	};
+
+	const withBase = (path: string) => (path === '/' ? `${base}/` : `${base}${path}`);
+	const normalize = (path: string) => path.replace(/\/+$/, '') || '/';
+	const isActive = (path: string) => normalize(page.url.pathname) === normalize(withBase(path));
 </script>
 
 <svelte:head>
@@ -29,7 +34,7 @@
 <div class="site">
 	<header class="topbar">
 		<div class="container nav-row">
-			<a href="/" class="brand" onclick={closeMobileMenu}>
+			<a href={withBase('/')} class="brand" onclick={closeMobileMenu}>
 				<div class="logo-box">L</div>
 				<div>
 					<div class="brand-title">LUMC</div>
@@ -39,7 +44,7 @@
 
 			<nav class="nav desktop-nav">
 				{#each navItems as item}
-					<a href={item.path} class:active={page.url.pathname === item.path}>{item.name}</a>
+					<a href={withBase(item.path)} class:active={isActive(item.path)}>{item.name}</a>
 				{/each}
 			</nav>
 
@@ -56,9 +61,9 @@
 		{#if isMobileMenuOpen}
 			<nav class="mobile-nav">
 				{#each navItems as item}
-					<a
-						href={item.path}
-						class:active={page.url.pathname === item.path}
+						<a
+						href={withBase(item.path)}
+						class:active={isActive(item.path)}
 						onclick={closeMobileMenu}
 					>
 						{item.name}
@@ -84,9 +89,9 @@
 			<div>
 				<h4>Quick Links</h4>
 				<ul>
-					<li><a href="/training">Training Catalogue</a></li>
-					<li><a href="/cafe">Coding Cafe</a></li>
-					<li><a href="/resources">Resources</a></li>
+					<li><a href={withBase('/training')}>Training Catalogue</a></li>
+					<li><a href={withBase('/cafe')}>Coding Cafe</a></li>
+					<li><a href={withBase('/resources')}>Resources</a></li>
 				</ul>
 			</div>
 			<div>

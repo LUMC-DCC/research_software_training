@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { events } from '$lib/data';
+	import { base } from '$app/paths';
 
 	const cafeEvents = events
 		.filter((e) => e.type === 'cafe')
@@ -8,6 +9,7 @@
 	const now = new Date();
 	const nextEvent = cafeEvents.find((e) => new Date(e.date) > now);
 	const pastEvents = cafeEvents.filter((e) => new Date(e.date) <= now).reverse();
+	const withBase = (path: string) => (path === '/' ? `${base}/` : `${base}${path}`);
 </script>
 
 <div class="wrap">
@@ -38,7 +40,7 @@
 						<span>{nextEvent.location}</span>
 						{#if nextEvent.speaker}<span>{nextEvent.speaker}</span>{/if}
 					</div>
-					<a href="/contact" class="btn">Register Now</a>
+					<a href={withBase('/contact')} class="btn">Register Now</a>
 				</div>
 			</section>
 		{:else}
@@ -76,7 +78,7 @@
 										<h4>{event.title}</h4>
 										<p>{new Date(event.date).toLocaleDateString()} • {event.speaker ?? 'Community Session'}</p>
 									</div>
-									<a href="/resources">View Materials</a>
+									<a href={withBase('/resources')}>View Materials</a>
 								</div>
 							{/each}
 						{:else}

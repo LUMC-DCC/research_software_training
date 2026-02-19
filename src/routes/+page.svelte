@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { events } from '$lib/data';
+	import { base } from '$app/paths';
 
 	const upcomingEvents = events
 		.filter((e) => new Date(e.date) > new Date())
@@ -10,6 +11,8 @@
 	const formatDay = (date: string) => new Date(date).getDate();
 	const formatTime = (date: string) =>
 		new Date(date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+	const withBase = (path: string) => (path === '/' ? `${base}/` : `${base}${path}`);
 </script>
 
 <section class="hero">
@@ -21,8 +24,8 @@
 				develop the coding skills needed for FAIR, reproducible, and impactful science.
 			</p>
 			<div class="button-row">
-				<a class="btn btn-white" href="/training">Browse Training Catalogue</a>
-				<a class="btn btn-cafe" href="/cafe">Join the Coding Cafe</a>
+				<a class="btn btn-white" href={withBase('/training')}>Browse Training Catalogue</a>
+				<a class="btn btn-cafe" href={withBase('/cafe')}>Join the Coding Cafe</a>
 			</div>
 		</div>
 	</div>
@@ -45,7 +48,7 @@
 				Learn practical skills to analyze data, visualize results, and automate your workflow. Start
 				with "Introduction to R" or "Python for Research".
 			</p>
-			<a class="btn btn-outline" href="/training">Find a Course</a>
+			<a class="btn btn-outline" href={withBase('/training')}>Find a Course</a>
 		</article>
 
 		<article class="card">
@@ -55,7 +58,7 @@
 				Deepen your knowledge of FAIR principles, software management plans, containerization, and
 				reproducibility to support your department.
 			</p>
-			<a class="btn btn-outline" href="/resources">View Resources</a>
+			<a class="btn btn-outline" href={withBase('/resources')}>View Resources</a>
 		</article>
 	</div>
 </section>
@@ -67,7 +70,7 @@
 				<h2>Upcoming Activities</h2>
 				<p>Don't miss our next workshops and meetups.</p>
 			</div>
-			<a class="events-link" href="/calendar">View Full Calendar</a>
+			<a class="events-link" href={withBase('/calendar')}>View Full Calendar</a>
 		</div>
 
 		<div class="events-list">
@@ -88,7 +91,7 @@
 							<h4>{event.title}</h4>
 							<p>{event.location}</p>
 						</div>
-						<a class="btn btn-outline desktop-only" href={event.type === 'cafe' ? '/cafe' : '/calendar'}
+						<a class="btn btn-outline desktop-only" href={event.type === 'cafe' ? withBase('/cafe') : withBase('/calendar')}
 							>Details</a
 						>
 					</div>
@@ -107,8 +110,8 @@
 		management plans.
 	</p>
 	<div class="button-row center">
-		<a class="btn btn-primary" href="/contact">Contact Us</a>
-		<a class="btn btn-outline" href="/about">Meet the Team</a>
+		<a class="btn btn-primary" href={withBase('/contact')}>Contact Us</a>
+		<a class="btn btn-outline" href={withBase('/about')}>Meet the Team</a>
 	</div>
 </section>
 

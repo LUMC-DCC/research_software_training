@@ -1,10 +1,14 @@
 <script lang="ts">
+	import { base } from '$app/paths';
+
 	let submitted = $state(false);
 
 	const handleSubmit = (event: SubmitEvent) => {
 		event.preventDefault();
 		submitted = true;
 	};
+
+	const withBase = (path: string) => (path === '/' ? `${base}/` : `${base}${path}`);
 </script>
 
 <div class="wrap">
@@ -46,7 +50,7 @@
 		<div class="meta">
 			<p>training@lumc.nl</p>
 			<p>
-				You can also join our <a href="/resources">Microsoft Teams Channel</a> for quick questions.
+				You can also join our <a href={withBase('/resources')}>Microsoft Teams Channel</a> for quick questions.
 			</p>
 		</div>
 	</div>
