@@ -2,382 +2,439 @@
 	import { events } from '$lib/data';
 	import { base } from '$app/paths';
 
+	const withBase = (path: string) => (path === '/' ? `${base}/` : `${base}${path}`);
+	const cafeLogoSrc = withBase('/images/Logo_transparent_bg.png');
+
 	const cafeEvents = events
-		.filter((e) => e.type === 'cafe')
+		.filter((event) => event.type === 'cafe')
 		.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
 	const now = new Date();
-	const nextEvent = cafeEvents.find((e) => new Date(e.date) > now);
-	const pastEvents = cafeEvents.filter((e) => new Date(e.date) <= now).reverse();
-	const withBase = (path: string) => (path === '/' ? `${base}/` : `${base}${path}`);
+	const upcomingEvents = cafeEvents.filter((event) => new Date(event.date) > now);
+	const pastEvents = cafeEvents.filter((event) => new Date(event.date) <= now).reverse();
+
+	const formatDate = (date: string) =>
+		new Date(date).toLocaleDateString(undefined, {
+			month: 'short',
+			day: '2-digit',
+			year: 'numeric'
+		});
+
+	const formatTime = (eventDate: string, explicitTime?: string) =>
+		explicitTime ||
+		new Date(eventDate).toLocaleTimeString([], {
+			hour: 'numeric',
+			minute: '2-digit'
+		});
+
+	const eventTagline = (tags?: string[]) => {
+		if (!tags || tags.length === 0) return 'Coding Cafe Session';
+		return tags[0].replace(/[-_]/g, ' ').toUpperCase();
+	};
+
+	const tagList = (tags?: string[]) => (tags && tags.length > 0 ? tags : ['coding-cafe']);
+	const sessionPath = (slug?: string) => (slug ? withBase(`/cafe/${slug}`) : undefined);
+
+	const speakerInitials = (name?: string) => {
+		if (!name) return 'CC';
+		return name
+			.split(' ')
+			.filter(Boolean)
+			.slice(0, 2)
+			.map((part) => part[0]?.toUpperCase() ?? '')
+			.join('');
+	};
 </script>
 
-<div class="wrap">
-	<div class="hero">
-		<div class="container hero-grid">
-			<div>
-				<div class="pill">Community Meetup</div>
-				<h1>LUMC Coding Cafe</h1>
-				<p>
-					A monthly informal gathering for anyone who writes code for research. Share knowledge,
-					troubleshoot bugs, and meet your peers.
-				</p>
-			</div>
-			<div class="coffee">Cafe</div>
+<div class="page">
+	<section class="info container">
+		<img class="cafe-logo" src={cafeLogoSrc} alt="LUMC Coding Cafe" />
+		<p>
+			Monthly sessions for researchers and developers to share tools, workflows, and practical
+			coding experience. Browse upcoming sessions first, then revisit past sessions in the archive.
+		</p>
+	</section>
+
+	<section class="section container">
+		<div class="section-head">
+			<h2>Upcoming Sessions</h2>
+			<span class="live">Live schedule</span>
 		</div>
-	</div>
 
-	<div class="container content">
-		{#if nextEvent}
-			<section class="next-card">
-				<div class="bar"></div>
-				<div>
-					<div class="next-label">Next Session</div>
-					<h2>{nextEvent.title}</h2>
-					<p class="desc">{nextEvent.description}</p>
-					<div class="meta">
-						<span>{new Date(nextEvent.date).toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' })}</span>
-						<span>{nextEvent.location}</span>
-						{#if nextEvent.speaker}<span>{nextEvent.speaker}</span>{/if}
-					</div>
-					<a href={withBase('/contact')} class="btn">Register Now</a>
-				</div>
-			</section>
-		{:else}
-			<section class="empty-card">
-				<h2>No upcoming sessions scheduled</h2>
-				<p>Check back soon for new dates.</p>
-			</section>
-		{/if}
-
-		<div class="layout">
-			<div class="main-col">
-				<section>
-					<h3>What to expect</h3>
-					<div class="steps">
-						<div class="step">
-							<div class="bubble">1</div>
-							<h4>Lightning Talks</h4>
-							<p>First 30 minutes: a short demo or presentation on a tool, library, or case study.</p>
-						</div>
-						<div class="step">
-							<div class="bubble green">2</div>
-							<h4>Co-working and Help</h4>
-							<p>Last 60 minutes: bring your laptop and work on your code with peers and mentors.</p>
-						</div>
-					</div>
-				</section>
-
-				<section>
-					<h3>Archive</h3>
-					<div class="archive">
-						{#if pastEvents.length > 0}
-							{#each pastEvents as event (event.id)}
-								<div class="archive-item">
-									<div>
-										<h4>{event.title}</h4>
-										<p>{new Date(event.date).toLocaleDateString()} • {event.speaker ?? 'Community Session'}</p>
-									</div>
-									<a href={withBase('/resources')}>View Materials</a>
+		{#if upcomingEvents.length > 0}
+			<div class="cards" class:single={upcomingEvents.length === 1}>
+				{#each upcomingEvents as event (event.id)}
+					<article class="event-card">
+						<div class="event-card-body">
+							<div class="top-row">
+								<span class="topic">{eventTagline(event.tags)}</span>
+								<div class="date-block">
+									<div>{formatDate(event.date)}</div>
+									<div>{formatTime(event.date, event.time)}</div>
 								</div>
-							{/each}
-						{:else}
-							<div class="archive-item"><p>No past events recorded.</p></div>
-						{/if}
-					</div>
-				</section>
+							</div>
+
+							<h3>{event.title}</h3>
+							{#if event.subtitle}<p class="subtitle">{event.subtitle}</p>{/if}
+							<p class="description">{event.description}</p>
+
+							<div class="tag-row">
+								{#each tagList(event.tags).slice(0, 4) as tag}
+									<span>#{tag}</span>
+								{/each}
+							</div>
+						</div>
+
+						<div class="event-card-footer">
+							<div class="speaker">
+								<div class="avatar">{speakerInitials(event.speaker)}</div>
+								<div>
+									<div class="speaker-name">{event.speaker ?? 'Community Session'}</div>
+									<div class="speaker-role">Coding Cafe Speaker</div>
+								</div>
+							</div>
+							<div class="key-info">
+								<div class="key-info-row"><span>Date</span> {formatDate(event.date)}</div>
+								<div class="key-info-row"><span>Time</span> {formatTime(event.date, event.time)}</div>
+								<div class="key-info-row"><span>Location</span> {event.location}</div>
+							</div>
+							<a class="cta" href={sessionPath(event.slug) || event.registrationLink || withBase('/contact')}
+								>Session page -></a
+							>
+						</div>
+					</article>
+				{/each}
 			</div>
+		{:else}
+			<div class="empty">No upcoming sessions scheduled yet.</div>
+		{/if}
+	</section>
 
-			<aside class="side-col">
-				<div class="topic-card">
-					<h3>Have a topic?</h3>
-					<p>
-						We are always looking for speakers. If you have a tool you love or a problem you solved,
-						share it at the next Cafe.
-					</p>
-					<button type="button">Propose a Topic</button>
-				</div>
-
-				<div class="faq-card">
-					<h3>FAQ</h3>
-					<div>
-						<h5>Do I need to be an expert?</h5>
-						<p>Not at all. Beginners are very welcome.</p>
-					</div>
-					<div>
-						<h5>Is lunch provided?</h5>
-						<p>Usually we provide coffee, tea and snacks.</p>
-					</div>
-				</div>
-			</aside>
+	<section class="section container">
+		<div class="section-head">
+			<h2>Archive / Past Sessions</h2>
+			<span class="archive-label">Archives</span>
 		</div>
-	</div>
+
+		{#if pastEvents.length > 0}
+			<div class="cards" class:single={pastEvents.length === 1}>
+				{#each pastEvents as event (event.id)}
+					<article class="event-card muted">
+						<div class="event-card-body">
+							<div class="top-row">
+								<span class="topic">{eventTagline(event.tags)}</span>
+								<div class="date-block">
+									<div>{formatDate(event.date)}</div>
+									<div>{formatTime(event.date, event.time)}</div>
+								</div>
+							</div>
+
+							<h3>{event.title}</h3>
+							{#if event.subtitle}<p class="subtitle">{event.subtitle}</p>{/if}
+							<p class="description">{event.description}</p>
+
+							<div class="tag-row">
+								{#each tagList(event.tags).slice(0, 4) as tag}
+									<span>#{tag}</span>
+								{/each}
+							</div>
+						</div>
+
+						<div class="event-card-footer">
+							<div class="speaker">
+								<div class="avatar">{speakerInitials(event.speaker)}</div>
+								<div>
+									<div class="speaker-name">{event.speaker ?? 'Community Session'}</div>
+									<div class="speaker-role">Past Session</div>
+								</div>
+							</div>
+							<a class="cta" href={sessionPath(event.slug) || withBase('/resources')}>View materials -></a>
+						</div>
+					</article>
+				{/each}
+			</div>
+		{:else}
+			<div class="empty">No past sessions recorded.</div>
+		{/if}
+	</section>
 </div>
 
 <style>
-	.wrap {
+	.page {
 		min-height: 100%;
-		background: #f8fafc;
+		background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 48%, #e2e8f0 100%);
+		padding-bottom: 4rem;
 	}
+
 	.container {
 		max-width: 80rem;
 		margin: 0 auto;
 		padding: 0 1rem;
 	}
-	.hero {
-		background: #15803d;
-		color: #fff;
-		padding: 4rem 0;
+
+	.info {
+		padding-top: 3.8rem;
+		padding-bottom: 2.4rem;
 	}
-	.hero-grid {
-		display: grid;
-		gap: 2rem;
+
+	.cafe-logo {
+		display: block;
+		margin: 1.25rem auto 0.8rem;
+		height: auto;
+		width: min(100%, 28rem);
+		max-width: calc(100% - 2.5rem);
+	}
+
+	.info p {
+		max-width: 44rem;
+		margin: 0;
+		font-size: 1.04rem;
+		line-height: 1.65;
+		color: #475569;
+	}
+
+	.section {
+		padding-top: 1.3rem;
+	}
+
+	.section-head {
+		display: flex;
+		justify-content: space-between;
 		align-items: center;
-	}
-	.pill {
-		display: inline-block;
-		border: 1px solid rgb(255 255 255 / 0.35);
-		background: rgb(22 101 52 / 0.5);
-		padding: 0.35rem 0.6rem;
-		border-radius: 999px;
-		font-size: 0.78rem;
-		font-weight: 700;
+		gap: 1rem;
 		margin-bottom: 1rem;
 	}
-	h1 {
-		margin: 0 0 1rem;
-		font-size: clamp(2.1rem, 6vw, 3.2rem);
-	}
-	.hero p {
-		margin: 0;
-		color: #dcfce7;
-		max-width: 40rem;
-		font-size: 1.1rem;
-		line-height: 1.7;
-	}
-	.coffee {
-		display: none;
-		font-size: 5rem;
-		font-weight: 800;
-		opacity: 0.2;
-		text-align: right;
-	}
-	.content {
-		margin-top: -1.5rem;
-		padding-bottom: 4rem;
-	}
-	.next-card {
-		position: relative;
-		background: #fff;
-		border: 1px solid #e2e8f0;
-		border-radius: 0.85rem;
-		box-shadow: 0 8px 24px rgb(15 23 42 / 0.08);
-		padding: 1.5rem;
-		margin-bottom: 2.5rem;
-	}
-	.bar {
-		position: absolute;
-		left: 0;
-		top: 0;
-		bottom: 0;
-		width: 0.35rem;
-		background: #22c55e;
-		border-top-left-radius: 0.85rem;
-		border-bottom-left-radius: 0.85rem;
-	}
-	.next-label {
-		font-size: 0.78rem;
-		font-weight: 700;
-		text-transform: uppercase;
-		letter-spacing: 0.03em;
-		color: #15803d;
-	}
+
 	h2 {
-		margin: 0.5rem 0 0.8rem;
-		font-size: 2rem;
+		margin: 0;
+		font-size: clamp(1.45rem, 4vw, 2rem);
 		color: #0f172a;
 	}
-	.desc {
-		margin: 0 0 1rem;
+
+	.live,
+	.archive-label {
+		font-size: 0.68rem;
+		font-weight: 800;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
 		color: #475569;
-		line-height: 1.65;
 	}
-	.meta {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.8rem;
-		color: #334155;
-		margin-bottom: 1.2rem;
-		font-weight: 600;
+
+	.live {
+		color: #34d399;
 	}
-	.btn {
-		display: inline-block;
-		text-decoration: none;
-		background: #15803d;
-		color: #fff;
-		padding: 0.7rem 1.2rem;
-		border-radius: 0.45rem;
-		font-weight: 700;
-	}
-	.layout {
+
+	.cards {
 		display: grid;
-		gap: 2rem;
-	}
-	.main-col {
-		display: grid;
-		gap: 2rem;
-	}
-	h3 {
-		margin: 0 0 1rem;
-		font-size: 1.55rem;
-		color: #0f172a;
-	}
-	.steps {
-		display: grid;
+		grid-template-columns: repeat(1, minmax(0, 1fr));
 		gap: 1rem;
 	}
-	.step {
-		background: #fff;
-		border: 1px solid #e2e8f0;
-		border-radius: 0.7rem;
-		padding: 1.2rem;
+
+	.cards.single {
+		grid-template-columns: minmax(18rem, 24rem);
+		justify-content: start;
 	}
-	.bubble {
-		width: 2rem;
-		height: 2rem;
-		border-radius: 999px;
-		display: grid;
-		place-items: center;
-		font-weight: 700;
-		background: #dbeafe;
-		color: #1d4ed8;
-		margin-bottom: 0.6rem;
-	}
-	.bubble.green {
-		background: #dcfce7;
-		color: #166534;
-	}
-	h4 {
-		margin: 0 0 0.5rem;
-		font-size: 1.05rem;
-		color: #0f172a;
-	}
-	.step p {
-		margin: 0;
-		font-size: 0.9rem;
-		color: #475569;
-		line-height: 1.55;
-	}
-	.archive {
-		background: #fff;
-		border: 1px solid #e2e8f0;
-		border-radius: 0.7rem;
+
+	.event-card {
+		aspect-ratio: 1 / 1;
+		display: flex;
+		flex-direction: column;
+		background: linear-gradient(160deg, #091710 0%, #020a07 100%);
+		border: 1px solid #153329;
+		border-radius: 1.25rem;
 		overflow: hidden;
+		box-shadow: 0 12px 30px rgb(0 0 0 / 0.35);
 	}
-	.archive-item {
-		padding: 0.95rem 1rem;
+
+	.event-card.muted {
+		opacity: 0.82;
+	}
+
+	.event-card-body {
+		padding: 1rem;
 		display: flex;
-		gap: 0.75rem;
-		align-items: center;
+		flex-direction: column;
+		gap: 0.7rem;
+		flex: 1;
+		min-height: 0;
+	}
+
+	.top-row {
+		display: flex;
 		justify-content: space-between;
-		border-top: 1px solid #f1f5f9;
+		gap: 0.6rem;
 	}
-	.archive-item:first-child {
-		border-top: 0;
-	}
-	.archive-item h4 {
-		margin: 0;
-	}
-	.archive-item p {
-		margin: 0.2rem 0 0;
-		color: #64748b;
-		font-size: 0.83rem;
-	}
-	.archive-item a {
-		text-decoration: none;
-		font-size: 0.85rem;
-		font-weight: 700;
-		color: #15803d;
-	}
-	.side-col {
-		display: grid;
-		gap: 1rem;
+
+	.topic {
+		padding: 0.3rem 0.58rem;
+		border-radius: 999px;
+		border: 1px solid rgb(245 158 11 / 0.35);
+		background: rgb(245 158 11 / 0.12);
+		color: #fbbf24;
+		font-size: 0.64rem;
+		font-weight: 800;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
 		height: fit-content;
 	}
-	.topic-card {
-		background: #0f172a;
-		color: #cbd5e1;
-		border-radius: 0.8rem;
-		padding: 1.2rem;
+
+	.date-block {
+		text-align: right;
+		font-size: 0.7rem;
+		line-height: 1.3;
+		color: #9ca3af;
 	}
-	.topic-card h3 {
-		color: #fff;
-		font-size: 1.2rem;
-		margin-bottom: 0.6rem;
-	}
-	.topic-card p {
-		margin: 0 0 0.9rem;
-		font-size: 0.88rem;
-		line-height: 1.6;
-	}
-	.topic-card button {
-		width: 100%;
-		border: 1px solid #475569;
-		background: transparent;
-		color: #fff;
-		padding: 0.55rem 0.7rem;
-		border-radius: 0.45rem;
-		font-weight: 600;
-	}
-	.faq-card {
-		background: #fff;
-		border: 1px solid #e2e8f0;
-		border-radius: 0.8rem;
-		padding: 1.2rem;
-		display: grid;
-		gap: 0.8rem;
-	}
-	.faq-card h3 {
-		font-size: 1.2rem;
-		margin-bottom: 0.2rem;
-	}
-	.faq-card h5 {
+
+	h3 {
 		margin: 0;
-		font-size: 0.83rem;
-		color: #0f172a;
+		color: #fff;
+		font-size: 1.32rem;
+		line-height: 1.15;
 	}
-	.faq-card p {
-		margin: 0.2rem 0 0;
-		font-size: 0.8rem;
+
+	.subtitle {
+		margin: 0;
+		color: #10b981;
+		font-size: 0.9rem;
+		font-weight: 800;
+		text-transform: uppercase;
+	}
+
+	.description {
+		margin: 0;
+		color: #94a3b8;
+		font-size: 0.88rem;
+		line-height: 1.5;
+		display: -webkit-box;
+		line-clamp: 4;
+		-webkit-line-clamp: 4;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+
+	.tag-row {
+		display: flex;
+		gap: 0.4rem;
+		flex-wrap: wrap;
+		margin-top: auto;
+	}
+
+	.tag-row span {
+		padding: 0.24rem 0.5rem;
+		border-radius: 0.45rem;
+		border: 1px solid #1f2f2a;
 		color: #64748b;
+		font-size: 0.65rem;
+		font-weight: 700;
 	}
-	@media (min-width: 768px) {
+
+	.event-card-footer {
+		padding: 0.8rem 1rem 1rem;
+		border-top: 1px solid #152722;
+		background: rgb(2 10 7 / 0.86);
+		display: grid;
+		gap: 0.6rem;
+	}
+
+	.speaker {
+		display: flex;
+		align-items: center;
+		gap: 0.58rem;
+	}
+
+	.avatar {
+		width: 2rem;
+		height: 2rem;
+		border-radius: 0.5rem;
+		display: grid;
+		place-items: center;
+		font-size: 0.72rem;
+		font-weight: 800;
+		background: #1f2937;
+		color: #e5e7eb;
+	}
+
+	.speaker-name {
+		font-size: 0.84rem;
+		font-weight: 700;
+		color: #f8fafc;
+	}
+
+	.speaker-role {
+		font-size: 0.69rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+		color: #34d399;
+	}
+
+	.key-info {
+		display: grid;
+		gap: 0.3rem;
+		padding: 0.55rem 0.65rem;
+		border-radius: 0.65rem;
+		border: 1px solid #205a49;
+		background: rgb(16 185 129 / 0.08);
+	}
+
+	.key-info-row {
+		color: #d1fae5;
+		font-size: 0.87rem;
+		font-weight: 700;
+		line-height: 1.35;
+	}
+
+	.key-info-row span {
+		color: #34d399;
+		font-size: 0.7rem;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		font-weight: 800;
+		margin-right: 0.35rem;
+	}
+
+	.cta {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		text-decoration: none;
+		padding: 0.62rem 0.8rem;
+		border-radius: 0.7rem;
+		background: #10b981;
+		color: #032016;
+		font-size: 0.88rem;
+		font-weight: 900;
+		letter-spacing: 0.02em;
+	}
+
+	.cta:hover {
+		background: #34d399;
+	}
+
+	.empty {
+		padding: 2rem;
+		border-radius: 1rem;
+		border: 1px dashed #94a3b8;
+		background: rgb(248 250 252 / 0.95);
+		color: #334155;
+	}
+
+	@media (min-width: 700px) {
+		.cards {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+		.cards.single {
+			grid-template-columns: minmax(20rem, 24rem);
+		}
+	}
+
+	@media (min-width: 1100px) {
 		.container {
 			padding: 0 1.5rem;
 		}
-		.steps {
-			grid-template-columns: repeat(2, minmax(0, 1fr));
-		}
-		.coffee {
-			display: block;
-		}
-	}
-	@media (min-width: 1024px) {
-		.hero-grid,
-		.layout {
-			grid-template-columns: 1fr 17rem;
-		}
-		.hero-grid > div:first-child {
-			grid-column: 1;
-		}
-		.hero-grid > .coffee {
-			grid-column: 2;
-		}
-		.main-col {
-			grid-column: 1;
-		}
-		.side-col {
-			grid-column: 2;
+		.cards {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: 1.2rem;
 		}
 	}
 </style>

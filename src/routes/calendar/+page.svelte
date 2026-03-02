@@ -5,10 +5,9 @@
 
 	type CellType = 'prev' | 'current' | 'next';
 
-	let currentDate = $state(new Date());
-
-	const year = $derived(currentDate.getFullYear());
-	const month = $derived(currentDate.getMonth());
+	const now = new Date();
+	let viewYear = $state(now.getFullYear());
+	let viewMonth = $state(now.getMonth());
 
 	const getDaysInMonth = (y: number, m: number) => new Date(y, m + 1, 0).getDate();
 	const getFirstDayOfMonth = (y: number, m: number) => {
@@ -19,8 +18,8 @@
 	type CalendarCell = { day: number; type: CellType; fullDate: Date };
 
 	const calendarCells = $derived.by(() => {
-		const y = year;
-		const m = month;
+		const y = viewYear;
+		const m = viewMonth;
 		const daysInMonth = getDaysInMonth(y, m);
 		const startingDayIndex = getFirstDayOfMonth(y, m);
 		const daysInPrevMonth = getDaysInMonth(y, m - 1);
@@ -43,6 +42,10 @@
 		return cells;
 	});
 
+	const monthLabel = $derived(
+		new Date(viewYear, viewMonth, 1).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+	);
+
 	const getEventsForDay = (date: Date) =>
 		events.filter((event) => {
 			const eDate = new Date(event.date);
@@ -54,15 +57,26 @@
 		});
 
 	const nextMonth = () => {
-		currentDate = new Date(year, month + 1, 1);
+		if (viewMonth === 11) {
+			viewMonth = 0;
+			viewYear += 1;
+			return;
+		}
+		viewMonth += 1;
 	};
 
 	const prevMonth = () => {
-		currentDate = new Date(year, month - 1, 1);
+		if (viewMonth === 0) {
+			viewMonth = 11;
+			viewYear -= 1;
+			return;
+		}
+		viewMonth -= 1;
 	};
 
 	const goToToday = () => {
-		currentDate = new Date();
+		viewYear = now.getFullYear();
+		viewMonth = now.getMonth();
 	};
 
 	const isToday = (date: Date) => new Date().toDateString() === date.toDateString();
@@ -74,7 +88,7 @@
 			<h1>Training Calendar</h1>
 			<div class="controls">
 				<button type="button" onclick={prevMonth}>Prev</button>
-				<div class="month">{currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</div>
+				<div class="month">{monthLabel}</div>
 				<button type="button" onclick={nextMonth}>Next</button>
 			</div>
 			<button type="button" class="today" onclick={goToToday}>Today</button>
@@ -231,15 +245,21 @@
 	}
 	.day {
 		margin-bottom: 0.35rem;
+		display: flex;
+		align-items: center;
+		min-height: 1.9rem;
 	}
 	.day span {
-		display: inline-grid;
+		display: grid;
 		place-items: center;
-		width: 1.6rem;
-		height: 1.6rem;
+		width: 1.9rem;
+		height: 1.9rem;
 		border-radius: 999px;
-		font-size: 0.8rem;
+		font-size: 0.76rem;
 		font-weight: 600;
+		line-height: 1;
+		letter-spacing: 0;
+		flex-shrink: 0;
 	}
 	.day span.today {
 		background: #0369a1;

@@ -1,0 +1,101 @@
+[
+  {
+    "id": "r1",
+    "title": "LUMC GitLab Guide",
+    "abstract": "Official guidelines for using the internal GitLab instance, including CI/CD templates.",
+    "type": "Guide",
+    "source": "Internal (LUMC)",
+    "tags": ["Version Control", "Git"],
+    "url": "#"
+  },
+  {
+    "id": "r2",
+    "title": "Pro Git Book",
+    "abstract": "The authoritative guide to Git, available for free online. Covers everything from basics to internals.",
+    "type": "Guide",
+    "source": "External",
+    "tags": ["Version Control", "Git"],
+    "url": "https://git-scm.com/book/en/v2"
+  },
+  {
+    "id": "r3",
+    "title": "Git Cheat Sheet",
+    "abstract": "A quick reference for the most common commands you will use daily.",
+    "type": "Tool",
+    "source": "External",
+    "tags": ["Version Control", "Git"],
+    "url": "#"
+  },
+  {
+    "id": "r4",
+    "title": "The Turing Way",
+    "abstract": "A handbook for reproducible, ethical and collaborative data science.",
+    "type": "Guide",
+    "source": "External",
+    "tags": ["Open Science", "Reproducibility", "FAIR"],
+    "url": "https://the-turing-way.netlify.app/"
+  },
+  {
+    "id": "r5",
+    "title": "Software Management Plans",
+    "abstract": "A template and guide for writing a SMP for your grant application.",
+    "type": "Policy",
+    "source": "Internal (LUMC)",
+    "tags": ["FAIR", "Management"],
+    "url": "#"
+  },
+  {
+    "id": "r6",
+    "title": "Fair Software Route",
+    "abstract": "Step-by-step interactive guide to making your research software FAIR.",
+    "type": "Tool",
+    "source": "External",
+    "tags": ["FAIR", "Open Science"],
+    "url": "https://fair-software.nl"
+  },
+  {
+    "id": "r7",
+    "title": "LUMC Python Guidelines",
+    "abstract": "Standard practices for structuring Python packages and environments at LUMC.",
+    "type": "Guide",
+    "source": "Internal (LUMC)",
+    "tags": ["Python", "Best Practices"],
+    "url": "#"
+  },
+  {
+    "id": "r8",
+    "title": "RStudio Cheatsheets",
+    "abstract": "Collection of cheatsheets for dplyr, ggplot2, and RMarkdown.",
+    "type": "Tool",
+    "source": "External",
+    "tags": ["R", "Data Analysis"],
+    "url": "#"
+  },
+  {
+    "id": "r9",
+    "title": "Conda for Biologists",
+    "abstract": "How to manage complex dependencies in bioinformatics projects.",
+    "type": "Tutorial",
+    "source": "External",
+    "tags": ["Python", "Environment"],
+    "url": "#"
+  },
+  {
+    "id": "r10",
+    "title": "Shark Cluster Docs",
+    "abstract": "Documentation for submitting jobs to the LUMC Shark HPC cluster.",
+    "type": "Guide",
+    "source": "Internal (LUMC)",
+    "tags": ["HPC", "Infrastructure"],
+    "url": "#"
+  },
+  {
+    "id": "r11",
+    "title": "Docker for Scientists",
+    "abstract": "Introduction to containerizing your research applications.",
+    "type": "Tutorial",
+    "source": "External",
+    "tags": ["Infrastructure", "Docker"],
+    "url": "#"
+  }
+]

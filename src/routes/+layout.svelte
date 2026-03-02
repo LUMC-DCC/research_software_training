@@ -22,6 +22,7 @@
 	};
 
 	const withBase = (path: string) => (path === '/' ? `${base}/` : `${base}${path}`);
+	const logoSrc = `${base}/images/research_training_logo.png`;
 	const normalize = (path: string) => path.replace(/\/+$/, '') || '/';
 	const isActive = (path: string) => normalize(page.url.pathname) === normalize(withBase(path));
 </script>
@@ -33,9 +34,11 @@
 
 <div class="site">
 	<header class="topbar">
-		<div class="container nav-row">
+		<div class="nav-row container">
 			<a href={withBase('/')} class="brand" onclick={closeMobileMenu}>
-				<div class="logo-box">L</div>
+				<div class="logo-box">
+					<img src={logoSrc} alt="LUMC Research Software Training logo" />
+				</div>
 				<div>
 					<div class="brand-title">LUMC</div>
 					<div class="brand-subtitle">Research Software Training</div>
@@ -61,7 +64,7 @@
 		{#if isMobileMenuOpen}
 			<nav class="mobile-nav">
 				{#each navItems as item}
-						<a
+					<a
 						href={withBase(item.path)}
 						class:active={isActive(item.path)}
 						onclick={closeMobileMenu}
@@ -78,7 +81,7 @@
 	</main>
 
 	<footer class="footer">
-		<div class="container footer-grid">
+		<div class="footer-grid container">
 			<div class="footer-main">
 				<h3>LUMC Research Software</h3>
 				<p>
@@ -156,15 +159,16 @@
 	}
 
 	.logo-box {
-		inline-size: 2.5rem;
-		block-size: 2.5rem;
-		border-radius: 0.375rem;
-		background: #0c4a6e;
-		color: white;
 		display: grid;
-		place-items: center;
-		font-size: 1.25rem;
-		font-weight: 700;
+		flex: 0 0 auto;
+	}
+
+	.logo-box img {
+		block-size: 3rem;
+		inline-size: auto;
+		max-inline-size: min(42vw, 10rem);
+		object-fit: contain;
+		display: block;
 	}
 
 	.brand-title {

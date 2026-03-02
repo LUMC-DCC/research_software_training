@@ -27,8 +27,8 @@
 		<div class="container">
 			<h1>Training Catalogue</h1>
 			<p>
-				Enhance your research software skills with our curated courses. From basic scripting to advanced
-				reproducible workflows.
+				Check this page for internal and external training opportunities across the region, from basic
+				scripting to advanced reproducible workflows.
 			</p>
 		</div>
 	</div>

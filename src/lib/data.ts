@@ -1,6 +1,18 @@
-import { codingCafeEvents } from '$lib/coding-cafe-events';
+import rawCodingCafeEvents from '$lib/content/coding-cafe-events.json';
+import rawTrainings from '$lib/content/trainings.json';
+import rawResources from '$lib/content/resources.json';
 
 export type DifficultyLevel = 'Beginner' | 'Intermediate' | 'Advanced';
+
+export type TrainingSession = {
+	id: string;
+	title?: string;
+	date: string;
+	time?: string;
+	location: string;
+	description?: string;
+	registrationLink?: string;
+};
 
 export type Training = {
 	id: string;
@@ -13,16 +25,29 @@ export type Training = {
 	learningOutcomes: string[];
 	materialsLink?: string;
 	tags: string[];
+	sessions: TrainingSession[];
 };
 
 export type EventItem = {
 	id: string;
 	type: 'training' | 'cafe';
 	title: string;
+	subtitle?: string;
 	date: string;
+	time?: string;
 	location: string;
 	speaker?: string;
+	speakerLink?: string;
+	speakerImage?: string;
 	description: string;
+	tags?: string[];
+	slug?: string;
+	slides?: string;
+	poster?: string;
+	repo?: string;
+	zenodo?: string;
+	calendar?: string;
+	image?: string;
 	registrationLink?: string;
 	relatedTrainingId?: string;
 };
@@ -43,195 +68,182 @@ export type TeamMember = {
 	image?: string;
 };
 
-const now = new Date();
-const currentYear = now.getFullYear();
-const currentMonth = now.getMonth();
-
-const getDate = (dayOffset: number, hour = 9) => {
-	const d = new Date(currentYear, currentMonth, 1);
-	d.setDate(d.getDate() + dayOffset);
-	d.setHours(hour, 0, 0, 0);
-	return d.toISOString();
+type RawCodingCafeEvent = {
+	title: string;
+	subtitle?: string;
+	date: string;
+	time?: string;
+	location: string;
+	speaker?: string;
+	speaker_link?: string;
+	speakerImage?: string;
+	description?: string;
+	slug?: string;
+	tags?: string[];
+	slides?: string;
+	poster?: string;
+	repo?: string;
+	zenodo?: string;
+	calendar?: string;
+	image?: string;
+	registrationLink?: string;
 };
 
-export const trainings: Training[] = [
-	{
-		id: 't1',
-		title: 'Introduction to R for Medical Research',
-		description:
-			'A foundational course covering R syntax, data manipulation with dplyr, and basic visualization.',
-		level: 'Beginner',
-		audience: ['PhD Candidates', 'Researchers'],
-		duration: '4 sessions (12 hours)',
-		format: 'In-person',
-		learningOutcomes: ['Master R syntax', 'Clean datasets', 'Create plots with ggplot2'],
-		tags: ['R', 'Data Analysis', 'Statistics'],
-		materialsLink: 'https://github.com/lumc/intro-r'
-	},
-	{
-		id: 't2',
-		title: 'Version Control with Git',
-		description:
-			'Learn how to manage your code history, collaborate with others, and publish your work.',
-		level: 'Intermediate',
-		audience: ['All Staff'],
-		duration: '1 day',
-		format: 'Hybrid',
-		learningOutcomes: ['Init repositories', 'Branching & Merging', 'Resolving conflicts'],
-		tags: ['Git', 'Reproducibility'],
-		materialsLink: 'https://github.com/lumc/git-course'
-	},
-	{
-		id: 't3',
-		title: 'Reproducible Workflows with Snakemake',
-		description: 'Build scalable and reproducible data analysis pipelines.',
-		level: 'Advanced',
-		audience: ['Bioinformaticians', 'Data Stewards'],
-		duration: '2 days',
-		format: 'Online',
-		learningOutcomes: ['Pipeline design', 'Conda environments', 'Cluster execution'],
-		tags: ['Python', 'Workflow', 'HPC']
-	}
-];
+type RawTraining = {
+	id: string;
+	title: string;
+	description: string;
+	level: DifficultyLevel;
+	audience: string[];
+	duration: string;
+	format: 'Online' | 'In-person' | 'Hybrid';
+	learningOutcomes: string[];
+	materialsLink?: string;
+	tags: string[];
+	sessions?: TrainingSession[];
+};
 
-export const events: EventItem[] = [
-	{
-		id: 'e2',
-		type: 'training',
-		title: 'Introduction to R - Cohort A',
-		date: getDate(2, 9),
-		location: 'Building 1, Room J-01',
-		description: 'The first session of our popular R course.',
-		relatedTrainingId: 't1',
-		registrationLink: '#'
-	},
-	{
-		id: 'e4',
-		type: 'training',
-		title: 'Advanced Git Workshop',
-		date: getDate(10, 13),
-		location: 'Online',
-		description: 'Deep dive into git rebase and submodules.',
-		relatedTrainingId: 't2',
-		registrationLink: '#'
-	},
-	{
-		id: 'e5',
-		type: 'training',
-		title: 'Python for Beginners',
-		date: getDate(20, 9),
-		location: 'Building 2, Room V-05',
-		description: 'Start scripting with Python.',
-		registrationLink: '#'
-	},
-	...codingCafeEvents
-];
+type RawResource = {
+	id: string;
+	title: string;
+	abstract: string;
+	type: 'Tutorial' | 'Guide' | 'Tool' | 'Policy';
+	tags: string[];
+	url: string;
+	source: 'Internal (LUMC)' | 'External';
+};
 
-export const resources: Resource[] = [
-	{
-		id: 'r1',
-		title: 'LUMC GitLab Guide',
-		abstract: 'Official guidelines for using the internal GitLab instance, including CI/CD templates.',
-		type: 'Guide',
-		source: 'Internal (LUMC)',
-		tags: ['Version Control', 'Git'],
-		url: '#'
-	},
-	{
-		id: 'r2',
-		title: 'Pro Git Book',
-		abstract:
-			'The authoritative guide to Git, available for free online. Covers everything from basics to internals.',
-		type: 'Guide',
-		source: 'External',
-		tags: ['Version Control', 'Git'],
-		url: 'https://git-scm.com/book/en/v2'
-	},
-	{
-		id: 'r3',
-		title: 'Git Cheat Sheet',
-		abstract: 'A quick reference for the most common commands you will use daily.',
-		type: 'Tool',
-		source: 'External',
-		tags: ['Version Control', 'Git'],
-		url: '#'
-	},
-	{
-		id: 'r4',
-		title: 'The Turing Way',
-		abstract: 'A handbook for reproducible, ethical and collaborative data science.',
-		type: 'Guide',
-		source: 'External',
-		tags: ['Open Science', 'Reproducibility', 'FAIR'],
-		url: 'https://the-turing-way.netlify.app/'
-	},
-	{
-		id: 'r5',
-		title: 'Software Management Plans',
-		abstract: 'A template and guide for writing a SMP for your grant application.',
-		type: 'Policy',
-		source: 'Internal (LUMC)',
-		tags: ['FAIR', 'Management'],
-		url: '#'
-	},
-	{
-		id: 'r6',
-		title: 'Fair Software Route',
-		abstract: 'Step-by-step interactive guide to making your research software FAIR.',
-		type: 'Tool',
-		source: 'External',
-		tags: ['FAIR', 'Open Science'],
-		url: 'https://fair-software.nl'
-	},
-	{
-		id: 'r7',
-		title: 'LUMC Python Guidelines',
-		abstract: 'Standard practices for structuring Python packages and environments at LUMC.',
-		type: 'Guide',
-		source: 'Internal (LUMC)',
-		tags: ['Python', 'Best Practices'],
-		url: '#'
-	},
-	{
-		id: 'r8',
-		title: 'RStudio Cheatsheets',
-		abstract: 'Collection of cheatsheets for dplyr, ggplot2, and RMarkdown.',
-		type: 'Tool',
-		source: 'External',
-		tags: ['R', 'Data Analysis'],
-		url: '#'
-	},
-	{
-		id: 'r9',
-		title: 'Conda for Biologists',
-		abstract: 'How to manage complex dependencies in bioinformatics projects.',
-		type: 'Tutorial',
-		source: 'External',
-		tags: ['Python', 'Environment'],
-		url: '#'
-	},
-	{
-		id: 'r10',
-		title: 'Shark Cluster Docs',
-		abstract: 'Documentation for submitting jobs to the LUMC Shark HPC cluster.',
-		type: 'Guide',
-		source: 'Internal (LUMC)',
-		tags: ['HPC', 'Infrastructure'],
-		url: '#'
-	},
-	{
-		id: 'r11',
-		title: 'Docker for Scientists',
-		abstract: 'Introduction to containerizing your research applications.',
-		type: 'Tutorial',
-		source: 'External',
-		tags: ['Infrastructure', 'Docker'],
-		url: '#'
+const startTimeToIso = (date: string, time?: string) => {
+	if (date.includes('T')) {
+		return date;
 	}
-];
+
+	const start = time?.split('-')[0]?.trim();
+	const match = start?.match(/^(\d{1,2}):(\d{2})$/);
+
+	if (!match) {
+		return `${date}T16:00:00`;
+	}
+
+	const [_, hh, mm] = match;
+	return `${date}T${hh.padStart(2, '0')}:${mm}:00`;
+};
+
+const codingCafeEvents: EventItem[] = (rawCodingCafeEvents as RawCodingCafeEvent[]).map((event, index) => {
+	if (!event.title || !event.date || !event.location) {
+		throw new Error(`Invalid coding-cafe-events.json entry at index ${index}`);
+	}
+
+	return {
+		id: event.slug || `cafe-${event.date}-${index}`,
+		type: 'cafe',
+		title: event.title,
+		subtitle: event.subtitle || undefined,
+		date: startTimeToIso(event.date, event.time),
+		time: event.time || undefined,
+		location: event.location,
+		speaker: event.speaker || undefined,
+		speakerLink: event.speaker_link || undefined,
+		speakerImage: event.speakerImage || undefined,
+		description: event.description || event.subtitle || event.title,
+		tags: event.tags || undefined,
+		slug: event.slug || undefined,
+		slides: event.slides || undefined,
+		poster: event.poster || undefined,
+		repo: event.repo || undefined,
+		zenodo: event.zenodo || undefined,
+		calendar: event.calendar || undefined,
+		image: event.image || undefined,
+		registrationLink: event.registrationLink || undefined
+	};
+});
+
+export const trainings: Training[] = (rawTrainings as RawTraining[]).map((training, index) => {
+	if (
+		!training.id ||
+		!training.title ||
+		!training.description ||
+		!training.level ||
+		!training.duration ||
+		!training.format ||
+		!Array.isArray(training.audience) ||
+		!Array.isArray(training.learningOutcomes) ||
+		!Array.isArray(training.tags) ||
+		(training.sessions !== undefined && !Array.isArray(training.sessions))
+	) {
+		throw new Error(`Invalid trainings.json entry at index ${index}`);
+	}
+
+	return {
+		id: training.id,
+		title: training.title,
+		description: training.description,
+		level: training.level,
+		audience: training.audience,
+		duration: training.duration,
+		format: training.format,
+		learningOutcomes: training.learningOutcomes,
+		tags: training.tags,
+		materialsLink: training.materialsLink || undefined,
+		sessions: training.sessions || []
+	};
+});
+
+const trainingEvents: EventItem[] = trainings.flatMap((training) =>
+	training.sessions.map((session, index) => {
+		if (!session.id || !session.date || !session.location) {
+			throw new Error(`Invalid session in trainings.json for training ${training.id} at index ${index}`);
+		}
+
+		return {
+			id: session.id,
+			type: 'training',
+			title: session.title || training.title,
+			date: startTimeToIso(session.date, session.time),
+			time: session.time || undefined,
+			location: session.location,
+			description: session.description || training.description,
+			registrationLink: session.registrationLink || undefined,
+			relatedTrainingId: training.id
+		};
+	})
+);
+
+export const events: EventItem[] = [...trainingEvents, ...codingCafeEvents];
+
+export const resources: Resource[] = (rawResources as RawResource[]).map((resource, index) => {
+	if (
+		!resource.id ||
+		!resource.title ||
+		!resource.abstract ||
+		!resource.type ||
+		!resource.source ||
+		!resource.url ||
+		!Array.isArray(resource.tags)
+	) {
+		throw new Error(`Invalid resources.json entry at index ${index}`);
+	}
+
+	return {
+		id: resource.id,
+		title: resource.title,
+		abstract: resource.abstract,
+		type: resource.type,
+		source: resource.source,
+		tags: resource.tags,
+		url: resource.url
+	};
+});
 
 export const team: TeamMember[] = [
-	{ name: 'Prof. Data', role: 'Scientific Lead' },
-	{ name: 'Jane Smith', role: 'Training Coordinator' },
-	{ name: 'John Doe', role: 'Research Software Engineer' }
+	{
+		name: 'dr. Anna Niehues',
+		role: 'Senior Data Steward',
+		image: '/images/team/anna-placeholder.svg'
+	},
+	{
+		name: 'dr. ir. Özgün Balaban',
+		role: 'Research Software Trainer',
+		image: '/images/team/ozgun-placeholder.svg'
+	}
 ];

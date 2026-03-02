@@ -1,79 +1,12 @@
 [
 	{
-		"title": "Build Once, Run Anywhere:",
-		"subtitle": "Making Your Research Reproducible with Docker",
-		"date": "2025-07-02",
-		"location": "Vertigo 9.06",
-		"speaker": "Ozgun Balaban",
-		"speaker_link": "https://research.tue.nl/nl/persons/ozgun-balaban",
-		"speakerImage": "https://research.tue.nl/files-asset/365781965/ozgun.jpg?w=160&f=webp",
-		"slides": "/events/2025-07-02-docker-and-reproducibility/slides/2025-07-02_docker-and-reproducibility-slides.pdf",
-		"poster": "/events/2025-07-02-docker-and-reproducibility/poster.png",
-		"repo": "https://github.com/ISBE-TUe/coding-cafe/tree/main/static/events/2025-07-02-docker-and-reproducibility",
-		"slug": "2025-07-02-docker-and-reproducibility",
-		"zenodo": "10.5281/zenodo.15802618",
-		"tags": ["docker", "reproducibility", "containers"]
-	},
-	{
-		"title": "Cloud in a Coffee Break:",
-		"subtitle": "Getting Started with SURF Research Cloud",
-		"date": "2025-10-08",
-		"time": "15:00 - 16:30",
-		"location": "Vertigo 9.06",
-		"speaker": "Ozgun Balaban",
-		"speaker_link": "https://research.tue.nl/nl/persons/ozgun-balaban",
-		"speakerImage": "https://research.tue.nl/files-asset/365781965/ozgun.jpg?w=160&f=webp",
-		"slides": "/events/2025-10-08-cloud-in-a-coffee-break/slides/2025-10-08-cloud-in-a-coffee-break-slides.pdf",
-		"slug": "2025-10-08-cloud-in-a-coffee-break",
-		"image": "/images/cloud.jpeg",
-		"tags": ["cloud-computing", "infrastructure", "SURF"],
-		"description": "An introductory session on SURF Research Cloud, covering its features, benefits, and how to get started with cloud computing for research projects.",
-		"calendar": "/calendar/cloud_coding_cafe.ics"
-	},
-	{
-		"title": "RDF/OWL + Large Language Models",
-		"date": "2025-10-29",
-		"time": "12:00 - 13:30",
-		"location": "Vertigo 9.06",
-		"speaker": "Alex Donkers",
-		"speaker_link": "https://www.tue.nl/en/research/researchers/alex-donkers",
-		"speakerImage": "https://assets.w3.tue.nl/w/fileadmin/_processed_/6/0/csm_f2b4618cba898d40dbb04b06161a89e1_f0776d2824.jpg",
-		"description": "In this Coding Cafe, we will explore the intersection of RDF/OWL and Large Language Models (LLMs). We will discuss how semantic web technologies can enhance the capabilities of LLMs and vice versa.",
-		"slug": "2025-10-29",
-		"tags": ["RDF", "OWL", "Large Language Models", "Semantic Web"],
-		"calendar": "/calendar/october_coding_cafe.ics"
-	},
-	{
-		"title": "Working with Data",
-		"subtitle": "From database concepts to a mini-SQL demo",
-		"date": "2025-11-24",
-		"description": "In this Coding Cafe, we will explore fundamental database concepts and demonstrate how to work with SQL through a mini-demo.",
-		"location": "Vertigo 9.06",
-		"time": "12:00 - 13:30",
-		"speaker": "Ozgun Balaban",
-		"speaker_link": "https://research.tue.nl/nl/persons/ozgun-balaban",
-		"speakerImage": "https://research.tue.nl/files-asset/365781965/ozgun.jpg?w=160&f=webp",
-		"slug": "2025-11-24",
-		"tags": ["databases", "SQL", "NoSQL", "data management"],
-		"calendar": "/calendar/november_coding_cafe.ics"
-	},
-	{
-		"title": "Cancelled",
-		"date": "2026-01-28",
-		"description": "Coming soon",
-		"location": "Vertigo 9.06",
-		"time": "12:00 - 13:30",
-		"speaker": "To Be Announced",
-		"slug": "2026-01-28"
-	},
-	{
-		"title": "To Be Announced",
-		"date": "2026-02-25",
-		"description": "Coming soon",
-		"location": "Vertigo 9.06",
-		"time": "12:00 - 13:30",
-		"speaker": "To Be Announced",
-		"slug": "2026-02-25",
-		"calendar": "/calendar/2026_02_codingcafe.ics"
+		"title": "Building Better Research Software Together",
+		"date": "2025-12-18",
+		"description": "Do you write code as part of your research, analyses, or daily work, but feel unsure about the \"right way\" to structure things?\nYou're not alone!\nIn this Coding Café session, we will explore simple and practical habits that make programming easier, more organized, and more enjoyable.",
+		"location": "T-05-038",
+		"speaker": "Özgün Balaban",
+		"slug": "2025-12-18-building-better-research-software-together",
+		"slides": "https://lumc-dcc.github.io/2025_12_18_codingcafe/1",
+		"tags": ["research-software"]
 	}
 ]

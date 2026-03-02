@@ -33,7 +33,11 @@
 		<div class="team">
 			{#each team as member (member.name)}
 				<div class="member">
-					<div class="avatar">{member.name.charAt(0)}</div>
+					{#if member.image}
+						<img class="avatar-image" src={member.image} alt={`${member.name} placeholder portrait`} />
+					{:else}
+						<div class="avatar">{member.name.charAt(0)}</div>
+					{/if}
 					<div>
 						<div class="name">{member.name}</div>
 						<div class="role">{member.role}</div>
@@ -102,6 +106,14 @@
 		background: #bae6fd;
 		color: #0c4a6e;
 		font-weight: 700;
+	}
+	.avatar-image {
+		width: 2.5rem;
+		height: 2.5rem;
+		border-radius: 999px;
+		object-fit: cover;
+		border: 1px solid #cbd5e1;
+		background: #fff;
 	}
 	.name {
 		font-weight: 700;

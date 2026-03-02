@@ -1,0 +1,70 @@
+[
+  {
+    "id": "t1",
+    "title": "Introduction to R for Medical Research",
+    "description": "A foundational course covering R syntax, data manipulation with dplyr, and basic visualization.",
+    "level": "Beginner",
+    "audience": ["PhD Candidates", "Researchers"],
+    "duration": "4 sessions (12 hours)",
+    "format": "In-person",
+    "learningOutcomes": ["Master R syntax", "Clean datasets", "Create plots with ggplot2"],
+    "tags": ["R", "Data Analysis", "Statistics"],
+    "materialsLink": "https://github.com/lumc/intro-r",
+    "sessions": [
+      {
+        "id": "e2",
+        "title": "Introduction to R - Cohort A",
+        "date": "2026-03-03",
+        "time": "09:00-12:00",
+        "location": "Building 1, Room J-01",
+        "description": "The first session of our popular R course.",
+        "registrationLink": "#"
+      }
+    ]
+  },
+  {
+    "id": "t2",
+    "title": "Version Control with Git",
+    "description": "Learn how to manage your code history, collaborate with others, and publish your work.",
+    "level": "Intermediate",
+    "audience": ["All Staff"],
+    "duration": "1 day",
+    "format": "Hybrid",
+    "learningOutcomes": ["Init repositories", "Branching & Merging", "Resolving conflicts"],
+    "tags": ["Git", "Reproducibility"],
+    "materialsLink": "https://github.com/lumc/git-course",
+    "sessions": [
+      {
+        "id": "e4",
+        "title": "Advanced Git Workshop",
+        "date": "2026-03-11",
+        "time": "13:00-16:00",
+        "location": "Online",
+        "description": "Deep dive into git rebase and submodules.",
+        "registrationLink": "#"
+      }
+    ]
+  },
+  {
+    "id": "t3",
+    "title": "Reproducible Workflows with Snakemake",
+    "description": "Build scalable and reproducible data analysis pipelines.",
+    "level": "Advanced",
+    "audience": ["Bioinformaticians", "Data Stewards"],
+    "duration": "2 days",
+    "format": "Online",
+    "learningOutcomes": ["Pipeline design", "Conda environments", "Cluster execution"],
+    "tags": ["Python", "Workflow", "HPC"],
+    "sessions": [
+      {
+        "id": "e5",
+        "title": "Python for Beginners",
+        "date": "2026-03-21",
+        "time": "09:00-12:00",
+        "location": "Building 2, Room V-05",
+        "description": "Start scripting with Python.",
+        "registrationLink": "#"
+      }
+    ]
+  }
+]
