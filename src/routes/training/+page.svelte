@@ -159,6 +159,7 @@
 									</div>
 									<div class="organizer"><strong>Organizer:</strong> {training.organizer}</div>
 									<p>{training.description}</p>
+									<div class="content-spacer"></div>
 									{#if training.registrationLink}
 										<a class="registration-button" href={training.registrationLink} target="_blank" rel="noreferrer">
 											More info and registration
@@ -343,19 +344,40 @@
 	.grid {
 		display: grid;
 		gap: 1rem;
+		align-items: stretch;
 	}
 	.card {
 		background: #fff;
 		border: 1px solid #e2e8f0;
 		border-radius: 0.65rem;
 		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		transition:
+			transform 180ms ease,
+			box-shadow 220ms ease,
+			border-color 220ms ease;
+		will-change: transform;
 	}
 	.card-top {
 		height: 0.36rem;
 		background: #0369a1;
+		transition: height 180ms ease;
+	}
+	.card:hover {
+		transform: translateY(-4px);
+		box-shadow: 0 14px 28px rgb(15 23 42 / 0.12);
+		border-color: #bfdbfe;
+	}
+	.card:hover .card-top {
+		height: 0.5rem;
 	}
 	.content {
 		padding: 1.2rem;
+		display: flex;
+		flex-direction: column;
+		flex: 1;
 	}
 	h3 {
 		margin: 0;
@@ -396,6 +418,10 @@
 		font-size: 0.78rem;
 		color: #64748b;
 	}
+	.content-spacer {
+		flex: 1;
+		min-height: 0.8rem;
+	}
 	.badge {
 		padding: 0.15rem 0.5rem;
 		border-radius: 999px;
@@ -429,9 +455,8 @@
 		margin-bottom: 0.7rem;
 	}
 	.card-footer {
-		padding: 0.9rem 1.2rem;
-		background: #f8fafc;
-		border-top: 1px solid #e2e8f0;
+		padding: 0 1.2rem 0.9rem;
+		background: #fff;
 		display: flex;
 		justify-content: flex-start;
 		gap: 0.35rem;
@@ -445,9 +470,13 @@
 	.tags span {
 		font-size: 0.7rem;
 		padding: 0.2rem 0.45rem;
-		background: #e2e8f0;
+		background: #e5e7eb;
 		color: #475569;
 		border-radius: 0.3rem;
+		transition: background-color 180ms ease;
+	}
+	.card:hover .tags span {
+		background: #dbe3ec;
 	}
 	.details {
 		margin-top: 0.75rem;

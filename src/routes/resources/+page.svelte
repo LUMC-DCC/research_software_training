@@ -115,7 +115,8 @@
 		grid-auto-columns: minmax(16rem, 18rem);
 		gap: 1rem;
 		overflow-x: auto;
-		padding: 0 1rem 0.8rem;
+		padding: 0.45rem 1rem 0.8rem;
+		margin-top: -0.45rem;
 		scroll-snap-type: x mandatory;
 	}
 	.card {
@@ -126,6 +127,19 @@
 		overflow: hidden;
 		display: flex;
 		flex-direction: column;
+		position: relative;
+		z-index: 0;
+		transition:
+			transform 180ms ease,
+			box-shadow 220ms ease,
+			border-color 220ms ease;
+		will-change: transform;
+	}
+	.card:hover {
+		transform: translateY(-4px);
+		box-shadow: 0 14px 24px rgb(15 23 42 / 0.1);
+		border-color: #bfdbfe;
+		z-index: 3;
 	}
 	.poster {
 		padding: 1rem;
@@ -134,6 +148,7 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
+		border-bottom: 1px solid rgb(255 255 255 / 0.14);
 	}
 	.internal {
 		background: linear-gradient(135deg, #0369a1, #0c4a6e);
@@ -201,6 +216,15 @@
 		border: 1px solid #cbd5e1;
 		padding: 0.3rem 0.5rem;
 		border-radius: 0.35rem;
+		transition:
+			background-color 180ms ease,
+			border-color 180ms ease,
+			color 180ms ease;
+	}
+	.card:hover .footer a {
+		background: #eff6ff;
+		border-color: #93c5fd;
+		color: #1e3a8a;
 	}
 	@media (min-width: 768px) {
 		.container,

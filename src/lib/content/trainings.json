@@ -94,7 +94,7 @@
   {
     "id": "t4",
     "title": "Scripting for Life Science Researchers",
-    "description": "This course is designed for researchers, who frequently handle large datasets or large numbers of files (images, sequence reads, mass spectra etc.) and who need a more efficient way of working with such data. The goal of the course is to empower students and researchers with backgrounds in biology or biomedicine to navigate, manage and perform operations on files and data and metadata in tabular text formats. The data may be microscopy images, FASTA sequences, gene ontology files, chromatograms, mass spectra or tables with data on genes or proteins. The course is not a general introduction to programming and will not deal with XML data, Web services or more advanced topics. For the Scripting course it is required to have followed the Linux course first. In case you haven’t done this yet, you can subscribe via the MGC website for next edition of the Practical Linux course.",
+    "description": "This course is designed for researchers, who frequently handle large datasets or large numbers of files (images, sequence reads, mass spectra etc.) and who need a more efficient way of working with such data. The goal of the course is to empower students and researchers with backgrounds in biology or biomedicine to navigate, manage and perform operations on files and data and metadata in tabular text formats. The data may be microscopy images, FASTA sequences, gene ontology files, chromatograms, mass spectra or tables with data on genes or proteins.",
     "organizer": "Medical Genetics Centre, LUMC",
     "level": "Intermediate",
     "audience": ["Anyone"],

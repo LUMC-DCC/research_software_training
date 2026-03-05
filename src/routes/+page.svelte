@@ -1,16 +1,55 @@
 <script lang="ts">
-	import { events } from '$lib/data';
+	import { events, trainings } from '$lib/data';
 	import { base } from '$app/paths';
 
-	const upcomingEvents = events
-		.filter((e) => new Date(e.date) > new Date())
+	type ActivityEvent = {
+		id: string;
+		type: 'training' | 'cafe';
+		title: string;
+		date: string;
+		time?: string;
+		location: string;
+	};
+
+	const now = new Date();
+	const trainingTitleById = new Map(trainings.map((training) => [training.id, training.title]));
+
+	const upcomingTrainingById = new Map<string, ActivityEvent>();
+	events
+		.filter((event) => event.type === 'training' && event.relatedTrainingId && new Date(event.date) > now)
+		.forEach((event) => {
+			const trainingId = event.relatedTrainingId as string;
+			const existing = upcomingTrainingById.get(trainingId);
+			if (!existing || new Date(event.date) < new Date(existing.date)) {
+				upcomingTrainingById.set(trainingId, {
+					id: `training-${trainingId}`,
+					type: 'training',
+					title: trainingTitleById.get(trainingId) || event.title,
+					date: event.date,
+					time: event.time,
+					location: event.location
+				});
+			}
+		});
+
+	const upcomingCafeEvents: ActivityEvent[] = events
+		.filter((event) => event.type === 'cafe' && new Date(event.date) > now)
+		.map((event) => ({
+			id: event.id,
+			type: 'cafe',
+			title: event.title,
+			date: event.date,
+			time: event.time,
+			location: event.location
+		}));
+
+	const upcomingEvents: ActivityEvent[] = [...Array.from(upcomingTrainingById.values()), ...upcomingCafeEvents]
 		.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
 		.slice(0, 3);
 
 	const formatMonth = (date: string) => new Date(date).toLocaleDateString('en-US', { month: 'short' });
 	const formatDay = (date: string) => new Date(date).getDate();
-	const formatTime = (date: string) =>
-		new Date(date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+	const formatTime = (time: string) => time;
 
 	const withBase = (path: string) => (path === '/' ? `${base}/` : `${base}${path}`);
 </script>
@@ -86,7 +125,9 @@
 								<span class:event-cafe={event.type === 'cafe'} class="type-tag">
 									{event.type === 'cafe' ? 'Coding Cafe' : 'Training'}
 								</span>
-								<span>{formatTime(event.date)}</span>
+								{#if event.time}
+									<span>{formatTime(event.time)}</span>
+								{/if}
 							</div>
 							<h4>{event.title}</h4>
 							<p>{event.location}</p>
