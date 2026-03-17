@@ -121,6 +121,37 @@
       }
             
     ]
+  },
+   {
+    "id": "t5",
+    "title": "Bioinformatics Software Management and Metadata Curation",
+    "description": "The course is aimed at PhD students, postdocs, scientific programmers, researchers and managers who develop or manage research software. The course covers writing and evaluation of software management plans, as well as curating software metadata in registries such as bio.tools.",
+    "organizer": "Center for Proteomics and Metabolomics, LUMC",
+    "level": "Intermediate",
+    "audience": ["Anyone"],
+    "duration": "1 day",
+    "format": "In-person",
+    "tags": ["Research Software Management", "Software Curation"],
+    "registrationLink": "https://www.medgencentre.com/MGC-courses/",
+    "sessions": [
+      {
+        "id": "e6",
+        "title": "Software Management Plans",
+        "date": "2026-06-12",
+        "time": "09:15",
+        "location": "V-02-018/022",
+        "description": ""
+      },
+            {
+        "id": "e6",
+        "title": "Software Metadata Curation",
+        "date": "2026-06-12",
+        "time": "13:00",
+        "location": "V-02-018/022",
+        "description": ""
+      }
+            
+    ]
   }
   
 ]
