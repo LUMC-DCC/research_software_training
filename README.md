@@ -2,7 +2,7 @@
 
 ## Live Website
 
-[https://lumc-dcc.github.io/coding_cafe/](https://lumc-dcc.github.io/coding_cafe/)
+[https://lumc-dcc.github.io/research_software_training/](https://lumc-dcc.github.io/research_software_training/)
 
 ## About This Website
 
