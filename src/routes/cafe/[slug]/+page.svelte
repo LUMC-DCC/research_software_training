@@ -23,7 +23,7 @@
 
 <div class="page">
 	<div class="container">
-		<a class="back" href={withBase('/cafe')}>&larr; Back to Coding Cafe</a>
+		<a class="back" href={withBase('/cafe/agenda')}>&larr; Back to Coding Cafe Agenda</a>
 
 		<header class="hero">
 			<div class="meta">{new Date(event.date).toLocaleDateString()} • {event.location}</div>

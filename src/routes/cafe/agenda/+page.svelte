@@ -1,0 +1,516 @@
+<script lang="ts">
+	import { events } from '$lib/data';
+	import { base } from '$app/paths';
+
+	const withBase = (path: string) => (path === '/' ? `${base}/` : `${base}${path}`);
+	const cafeLogoSrc = withBase('/images/Logo_transparent_bg.png');
+
+	const cafeEvents = events
+		.filter((event) => event.type === 'cafe')
+		.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+	const now = new Date();
+	const upcomingEvents = cafeEvents.filter((event) => new Date(event.date) > now);
+	const pastEvents = cafeEvents.filter((event) => new Date(event.date) <= now).reverse();
+
+	const formatDate = (date: string) =>
+		new Date(date).toLocaleDateString(undefined, {
+			month: 'short',
+			day: '2-digit',
+			year: 'numeric'
+		});
+
+	const formatTime = (eventDate: string, explicitTime?: string) =>
+		explicitTime ||
+		new Date(eventDate).toLocaleTimeString([], {
+			hour: 'numeric',
+			minute: '2-digit'
+		});
+
+	const eventTagline = (tags?: string[]) => {
+		if (!tags || tags.length === 0) return 'Coding Cafe Session';
+		return tags[0].replace(/[-_]/g, ' ');
+	};
+
+	const tagList = (tags?: string[]) => (tags && tags.length > 0 ? tags : ['coding-cafe']);
+	const sessionPath = (slug?: string) => (slug ? withBase(`/cafe/${slug}`) : undefined);
+
+	const speakerInitials = (name?: string) => {
+		if (!name) return 'CC';
+		return name
+			.split(' ')
+			.filter(Boolean)
+			.slice(0, 2)
+			.map((part) => part[0]?.toUpperCase() ?? '')
+			.join('');
+	};
+</script>
+
+<div class="page">
+	<section class="intro">
+		<div class="container intro-grid">
+			<div class="intro-copy">
+				<div class="eyebrow">Coding Cafe Agenda</div>
+				<h1>Sessions, archive, and the next things worth joining.</h1>
+				<p>
+					The BeCoding-style card layout now lives here, restyled to match the lighter LUMC site
+					theme. Use this page as the practical overview for everything happening in the Coding Cafe.
+				</p>
+			</div>
+
+			<div class="intro-panel">
+				<img class="cafe-logo" src={cafeLogoSrc} alt="LUMC Coding Cafe" />
+				<a class="back-link" href={withBase('/cafe')}>Back to Coding Cafe landing -></a>
+			</div>
+		</div>
+	</section>
+
+	<section class="section container">
+		<div class="section-head">
+			<div>
+				<div class="section-label">Live schedule</div>
+				<h2>Upcoming Sessions</h2>
+			</div>
+		</div>
+
+		{#if upcomingEvents.length > 0}
+			<div class="cards" class:single={upcomingEvents.length === 1}>
+				{#each upcomingEvents as event (event.id)}
+					<article class="event-card">
+						<div class="event-card-body">
+							<div class="top-row">
+								<span class="topic">{eventTagline(event.tags)}</span>
+								<div class="date-block">
+									<div>{formatDate(event.date)}</div>
+									<div>{formatTime(event.date, event.time)}</div>
+								</div>
+							</div>
+
+							<h3>{event.title}</h3>
+							{#if event.subtitle}<p class="subtitle">{event.subtitle}</p>{/if}
+							<p class="description">{event.description}</p>
+
+							<div class="tag-row">
+								{#each tagList(event.tags).slice(0, 4) as tag}
+									<span>#{tag}</span>
+								{/each}
+							</div>
+						</div>
+
+						<div class="event-card-footer">
+							<div class="speaker">
+								<div class="avatar">{speakerInitials(event.speaker)}</div>
+								<div>
+									<div class="speaker-name">{event.speaker ?? 'Community Session'}</div>
+									<div class="speaker-role">Coding Cafe Speaker</div>
+								</div>
+							</div>
+							<div class="key-info">
+								<div class="key-info-row"><span>Date</span> {formatDate(event.date)}</div>
+								<div class="key-info-row"><span>Time</span> {formatTime(event.date, event.time)}</div>
+								<div class="key-info-row"><span>Location</span> {event.location}</div>
+							</div>
+							<a class="cta" href={sessionPath(event.slug) || event.registrationLink || withBase('/contact')}
+								>Session page -></a
+							>
+						</div>
+					</article>
+				{/each}
+			</div>
+		{:else}
+			<div class="empty">No upcoming sessions scheduled yet.</div>
+		{/if}
+	</section>
+
+	<section class="section container archive-section">
+		<div class="section-head">
+			<div>
+				<div class="section-label archive-label">Archive</div>
+				<h2>Past Sessions</h2>
+			</div>
+		</div>
+
+		{#if pastEvents.length > 0}
+			<div class="cards" class:single={pastEvents.length === 1}>
+				{#each pastEvents as event (event.id)}
+					<article class="event-card muted">
+						<div class="event-card-body">
+							<div class="top-row">
+								<span class="topic">{eventTagline(event.tags)}</span>
+								<div class="date-block">
+									<div>{formatDate(event.date)}</div>
+									<div>{formatTime(event.date, event.time)}</div>
+								</div>
+							</div>
+
+							<h3>{event.title}</h3>
+							{#if event.subtitle}<p class="subtitle">{event.subtitle}</p>{/if}
+							<p class="description">{event.description}</p>
+
+							<div class="tag-row">
+								{#each tagList(event.tags).slice(0, 4) as tag}
+									<span>#{tag}</span>
+								{/each}
+							</div>
+						</div>
+
+						<div class="event-card-footer">
+							<div class="speaker">
+								<div class="avatar">{speakerInitials(event.speaker)}</div>
+								<div>
+									<div class="speaker-name">{event.speaker ?? 'Community Session'}</div>
+									<div class="speaker-role archive-role">Past Session</div>
+								</div>
+							</div>
+							<a class="cta secondary" href={sessionPath(event.slug) || withBase('/resources')}
+								>View materials -></a
+							>
+						</div>
+					</article>
+				{/each}
+			</div>
+		{:else}
+			<div class="empty">No past sessions recorded.</div>
+		{/if}
+	</section>
+</div>
+
+<style>
+	.page {
+		min-height: 100%;
+		background:
+			radial-gradient(circle at top right, rgb(14 165 233 / 0.16), transparent 24rem),
+			linear-gradient(180deg, #f8fafc 0%, #f0f9ff 46%, #e2e8f0 100%);
+		padding-bottom: 4rem;
+	}
+
+	.container {
+		max-width: 80rem;
+		margin: 0 auto;
+		padding: 0 1rem;
+	}
+
+	.intro {
+		padding-top: 3.2rem;
+		padding-bottom: 1.6rem;
+	}
+
+	.intro-grid {
+		display: grid;
+		gap: 1.5rem;
+		align-items: end;
+	}
+
+	.eyebrow,
+	.section-label {
+		display: inline-flex;
+		padding: 0.42rem 0.8rem;
+		border-radius: 999px;
+		background: #e0f2fe;
+		color: #075985;
+		font-size: 0.72rem;
+		font-weight: 800;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+
+	.archive-label {
+		background: #e2e8f0;
+		color: #475569;
+	}
+
+	h1 {
+		margin: 1rem 0 1rem;
+		font-size: clamp(2.2rem, 6vw, 3.7rem);
+		line-height: 0.98;
+		letter-spacing: -0.04em;
+		color: #0f172a;
+	}
+
+	h2 {
+		margin: 0.8rem 0 0;
+		font-size: clamp(1.55rem, 4vw, 2.2rem);
+		color: #0f172a;
+	}
+
+	h3 {
+		margin: 0;
+		color: #0f172a;
+		font-size: 1.32rem;
+		line-height: 1.15;
+	}
+
+	.intro-copy p {
+		max-width: 44rem;
+		margin: 0;
+		font-size: 1.04rem;
+		line-height: 1.7;
+		color: #475569;
+	}
+
+	.intro-panel {
+		display: grid;
+		gap: 1rem;
+		justify-items: start;
+	}
+
+	.cafe-logo {
+		display: block;
+		height: auto;
+		width: min(100%, 24rem);
+		max-width: calc(100% - 2rem);
+		filter: drop-shadow(0 18px 40px rgb(14 165 233 / 0.15));
+	}
+
+	.back-link {
+		text-decoration: none;
+		font-weight: 700;
+		color: #0369a1;
+	}
+
+	.section {
+		padding-top: 1.5rem;
+	}
+
+	.archive-section {
+		padding-top: 2rem;
+	}
+
+	.section-head {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 1rem;
+		margin-bottom: 1rem;
+	}
+
+	.cards {
+		display: grid;
+		grid-template-columns: repeat(1, minmax(0, 1fr));
+		gap: 1rem;
+	}
+
+	.cards.single {
+		grid-template-columns: minmax(18rem, 24rem);
+		justify-content: start;
+	}
+
+	.event-card {
+		aspect-ratio: 1 / 1;
+		display: flex;
+		flex-direction: column;
+		background: linear-gradient(180deg, rgb(255 255 255 / 0.98), rgb(248 250 252 / 0.98));
+		border: 1px solid rgb(148 163 184 / 0.22);
+		border-radius: 1.35rem;
+		overflow: hidden;
+		box-shadow: 0 20px 50px rgb(15 23 42 / 0.08);
+	}
+
+	.event-card.muted {
+		background: linear-gradient(180deg, rgb(255 255 255 / 0.82), rgb(241 245 249 / 0.9));
+	}
+
+	.event-card-body {
+		padding: 1rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.7rem;
+		flex: 1;
+		min-height: 0;
+	}
+
+	.top-row {
+		display: flex;
+		justify-content: space-between;
+		gap: 0.6rem;
+	}
+
+	.topic {
+		padding: 0.3rem 0.58rem;
+		border-radius: 999px;
+		border: 1px solid rgb(14 165 233 / 0.24);
+		background: rgb(14 165 233 / 0.09);
+		color: #0369a1;
+		font-size: 0.64rem;
+		font-weight: 800;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		height: fit-content;
+	}
+
+	.date-block {
+		text-align: right;
+		font-size: 0.7rem;
+		line-height: 1.3;
+		color: #64748b;
+	}
+
+	.subtitle {
+		margin: 0;
+		color: #0284c7;
+		font-size: 0.9rem;
+		font-weight: 800;
+		text-transform: uppercase;
+	}
+
+	.description {
+		margin: 0;
+		color: #475569;
+		font-size: 0.88rem;
+		line-height: 1.5;
+		display: -webkit-box;
+		line-clamp: 4;
+		-webkit-line-clamp: 4;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+
+	.tag-row {
+		display: flex;
+		gap: 0.4rem;
+		flex-wrap: wrap;
+		margin-top: auto;
+	}
+
+	.tag-row span {
+		padding: 0.24rem 0.5rem;
+		border-radius: 0.45rem;
+		border: 1px solid #dbeafe;
+		background: #f8fafc;
+		color: #64748b;
+		font-size: 0.65rem;
+		font-weight: 700;
+	}
+
+	.event-card-footer {
+		padding: 0.8rem 1rem 1rem;
+		border-top: 1px solid #e2e8f0;
+		background: rgb(248 250 252 / 0.84);
+		display: grid;
+		gap: 0.6rem;
+	}
+
+	.speaker {
+		display: flex;
+		align-items: center;
+		gap: 0.58rem;
+	}
+
+	.avatar {
+		width: 2rem;
+		height: 2rem;
+		border-radius: 0.6rem;
+		display: grid;
+		place-items: center;
+		font-size: 0.72rem;
+		font-weight: 800;
+		background: #e0f2fe;
+		color: #075985;
+	}
+
+	.speaker-name {
+		font-size: 0.84rem;
+		font-weight: 700;
+		color: #0f172a;
+	}
+
+	.speaker-role {
+		font-size: 0.69rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+		color: #0284c7;
+	}
+
+	.archive-role {
+		color: #64748b;
+	}
+
+	.key-info {
+		display: grid;
+		gap: 0.3rem;
+		padding: 0.55rem 0.65rem;
+		border-radius: 0.8rem;
+		border: 1px solid #dbeafe;
+		background: #f0f9ff;
+	}
+
+	.key-info-row {
+		color: #0f172a;
+		font-size: 0.87rem;
+		font-weight: 700;
+		line-height: 1.35;
+	}
+
+	.key-info-row span {
+		color: #0284c7;
+		font-size: 0.7rem;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		font-weight: 800;
+		margin-right: 0.35rem;
+	}
+
+	.cta {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		text-decoration: none;
+		padding: 0.72rem 0.8rem;
+		border-radius: 0.8rem;
+		background: #0369a1;
+		color: #fff;
+		font-size: 0.88rem;
+		font-weight: 900;
+		letter-spacing: 0.02em;
+	}
+
+	.cta:hover {
+		background: #075985;
+	}
+
+	.cta.secondary {
+		background: #fff;
+		color: #0f172a;
+		border: 1px solid #cbd5e1;
+	}
+
+	.cta.secondary:hover {
+		background: #f8fafc;
+	}
+
+	.empty {
+		padding: 2rem;
+		border-radius: 1rem;
+		border: 1px dashed #94a3b8;
+		background: rgb(248 250 252 / 0.95);
+		color: #334155;
+	}
+
+	@media (min-width: 700px) {
+		.cards {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+
+		.cards.single {
+			grid-template-columns: minmax(20rem, 24rem);
+		}
+	}
+
+	@media (min-width: 900px) {
+		.intro-grid {
+			grid-template-columns: minmax(0, 1.25fr) minmax(18rem, 0.75fr);
+		}
+	}
+
+	@media (min-width: 1100px) {
+		.container {
+			padding: 0 1.5rem;
+		}
+
+		.cards {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: 1.2rem;
+		}
+	}
+</style>
