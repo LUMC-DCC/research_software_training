@@ -99,8 +99,7 @@
 			</div>
 			<div>
 				<h4>Contact</h4>
-				<p>Albinusdreef 2, 2333 ZA Leiden</p>
-				<p><a href="mailto:training@lumc.nl">training@lumc.nl</a></p>
+				<p><a href="mailto:o.balaban@lumc.nl">o.balaban@lumc.nl</a></p>
 			</div>
 		</div>
 		<div class="footer-bottom">

@@ -36,11 +36,15 @@
 	};
 
 	const filteredCurrentTrainings = $derived(
-		trainings.filter((training) => !isArchivedTraining(training, todayDateKey) && matchesFilters(training))
+		trainings.filter(
+			(training) => !isArchivedTraining(training, todayDateKey) && matchesFilters(training)
+		)
 	);
 
 	const filteredArchivedTrainings = $derived(
-		trainings.filter((training) => isArchivedTraining(training, todayDateKey) && matchesFilters(training))
+		trainings.filter(
+			(training) => isArchivedTraining(training, todayDateKey) && matchesFilters(training)
+		)
 	);
 
 	const badgeClass = (level: DifficultyLevel) => {
@@ -71,8 +75,8 @@
 		<div class="container">
 			<h1>Training Catalogue</h1>
 			<p>
-				Check this page for internal and external training opportunities across the region, from basic
-				scripting to advanced reproducible workflows.
+				Check this page for internal and external training opportunities across the region, from
+				basic scripting to advanced reproducible workflows.
 			</p>
 			<div class="external-events">
 				<span>Looking for more events?</span>
@@ -106,7 +110,7 @@
 		</div>
 	</div>
 
-	<div class="container section">
+	<div class="section container">
 		<div class="layout">
 			<aside class="sidebar">
 				<div>
@@ -139,7 +143,8 @@
 
 			<section class="results">
 				<div class="count">
-					Showing {filteredCurrentTrainings.length} current course{filteredCurrentTrainings.length !== 1
+					Showing {filteredCurrentTrainings.length} current course{filteredCurrentTrainings.length !==
+					1
 						? 's'
 						: ''}
 				</div>
@@ -151,7 +156,10 @@
 								<div class="card-top"></div>
 								<div class="content">
 									<h3>{training.title}</h3>
-									<div class="dates"><strong>Dates:</strong> {formatSessionDates(training.sessions.map((session) => session.date))}</div>
+									<div class="dates">
+										<strong>Dates:</strong>
+										{formatSessionDates(training.sessions.map((session) => session.date))}
+									</div>
 									<div class="meta-row">
 										<span class={badgeClass(training.level)}>{training.level}</span>
 										<span class="sep">•</span>
@@ -161,18 +169,30 @@
 									<p>{training.description}</p>
 									<div class="content-spacer"></div>
 									{#if training.registrationLink}
-										<a class="registration-button" href={training.registrationLink} target="_blank" rel="noreferrer">
+										<a
+											class="registration-button"
+											href={training.registrationLink}
+											target="_blank"
+											rel="noreferrer"
+										>
 											More info and registration
 										</a>
 									{:else}
-										<div class="registration-unavailable">More info and registration not available yet.</div>
+										<div class="registration-unavailable">
+											More info and registration not available yet.
+										</div>
 									{/if}
-									<div class="audience"><strong>Target Audience:</strong> {training.audience.join(', ')}</div>
+									<div class="audience">
+										<strong>Target Audience:</strong>
+										{training.audience.join(', ')}
+									</div>
 									<div class="details">
 										<div><strong>Format:</strong> {training.format}</div>
 										{#if training.materialsLink}
 											<div>
-												<a href={training.materialsLink} target="_blank" rel="noreferrer">Course materials</a>
+												<a href={training.materialsLink} target="_blank" rel="noreferrer"
+													>Course materials</a
+												>
 											</div>
 										{/if}
 									</div>
@@ -187,39 +207,46 @@
 							</article>
 						{/each}
 					</div>
-					{:else}
-						<div class="empty">
-							<h3>No courses found</h3>
-							<p>Try adjusting your search or filters.</p>
-						</div>
-					{/if}
+				{:else}
+					<div class="empty">
+						<h3>No courses found</h3>
+						<p>Try adjusting your search or filters.</p>
+					</div>
+				{/if}
 
-					{#if filteredArchivedTrainings.length > 0}
-						<div class="archive-section">
-							<h2 class="archive-heading">
-								Archive ({filteredArchivedTrainings.length} training{filteredArchivedTrainings.length !== 1
-									? 's'
-									: ''})
-							</h2>
-							<div class="archive-grid">
-								{#each filteredArchivedTrainings as training (training.id)}
-									<article class="archive-card" id={training.id}>
-										<h3>{training.title}</h3>
-										<div class="archive-dates">
-											<strong>Dates:</strong> {formatSessionDates(training.sessions.map((session) => session.date))}
-										</div>
-										<div class="archive-organizer"><strong>Organizer:</strong> {training.organizer}</div>
-										{#if training.materialsLink}
-											<a href={training.materialsLink} target="_blank" rel="noreferrer">Course materials</a>
-										{/if}
-									</article>
-								{/each}
-							</div>
+				{#if filteredArchivedTrainings.length > 0}
+					<div class="archive-section">
+						<h2 class="archive-heading">
+							Archive ({filteredArchivedTrainings.length} training{filteredArchivedTrainings.length !==
+							1
+								? 's'
+								: ''})
+						</h2>
+						<div class="archive-grid">
+							{#each filteredArchivedTrainings as training (training.id)}
+								<article class="archive-card" id={training.id}>
+									<h3>{training.title}</h3>
+									<div class="archive-dates">
+										<strong>Dates:</strong>
+										{formatSessionDates(training.sessions.map((session) => session.date))}
+									</div>
+									<div class="archive-organizer">
+										<strong>Organizer:</strong>
+										{training.organizer}
+									</div>
+									{#if training.materialsLink}
+										<a href={training.materialsLink} target="_blank" rel="noreferrer"
+											>Course materials</a
+										>
+									{/if}
+								</article>
+							{/each}
 						</div>
-					{/if}
-				</section>
-			</div>
+					</div>
+				{/if}
+			</section>
 		</div>
+	</div>
 </div>
 
 <style>

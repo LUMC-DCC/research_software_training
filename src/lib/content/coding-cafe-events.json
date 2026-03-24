@@ -1,4 +1,14 @@
 [
+		{
+		"title": "Version Control: Working with Git",
+		"date": "2026-04-07",
+		"description": "Do you write code as part of your research, analyses, or daily work, but feel unsure about the \"right way\" to structure things?\nYou're not alone!\nIn this Coding Café session, we will explore simple and practical habits that make programming easier, more organized, and more enjoyable.",
+		"location": "T-05-038",
+		"speaker": "Özgün Balaban",
+		"slug": "2026-04-07-version-control-working-with-git",
+		"slides": "https://lumc-dcc.github.io/2026_04_07_codingcafe/1",
+		"tags": ["version control", "git", "github", "gitlab"]
+	}, 
 	{
 		"title": "Building Better Research Software Together",
 		"date": "2025-12-18",
