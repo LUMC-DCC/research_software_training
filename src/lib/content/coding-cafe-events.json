@@ -1,4 +1,16 @@
 [
+		{
+		"title": "AI assisted coding - tentative",
+		"date": "2026-05-05",
+		"startTime": "13:00",
+		"endTime": "14:30",
+		"description": "will be updated soon",
+		"location": "S-07-005",
+		"speaker": "Özgün Balaban",
+		"slug": "2026-05-05-ai-assisted-coding-tentative",
+		"slides": "",
+		"tags": ["AI", "coding"]
+	}, 
 	{
 		"title": "Version Control: Working with Git",
 		"date": "2026-04-07",
@@ -8,7 +20,7 @@
 		"location": "S-07-005",
 		"speaker": "Özgün Balaban",
 		"slug": "2026-04-07-version-control-working-with-git",
-		"slides": "https://lumc-dcc.github.io/2026_04_07_codingcafe/1",
+		"slides": "",
 		"tags": ["version control", "git", "github", "gitlab"]
 	}, 
 	{

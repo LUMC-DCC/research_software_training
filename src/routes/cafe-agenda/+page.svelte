@@ -95,7 +95,7 @@
 			{#if upcoming.length}
 				<div class={viewMode === 'grid' ? 'event-grid' : 'event-list'}>
 					{#each upcoming as event (event.id)}
-						<a class:card-grid-view={viewMode === 'grid'} class="agenda-card" href={agendaHref(event.slug, event.registrationLink)}>
+						<article class:card-grid-view={viewMode === 'grid'} class="agenda-card">
 							<div class="agenda-card__rail">
 								<span class="agenda-card__badge">{formatDate(event.date)}</span>
 								{#if event.time}
@@ -135,20 +135,8 @@
 										{/if}
 									</div>
 								</div>
-
-								<div class="agenda-card__action">
-									<div class="agenda-card__action-copy">
-										<p class="agenda-card__action-label">Join</p>
-										<p class="agenda-card__action-title">Open session details</p>
-									</div>
-									<span class="agenda-card__action-icon" aria-hidden="true">
-										<svg viewBox="0 0 24 24">
-											<path d="M7 17L17 7M17 7H8M17 7V16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-										</svg>
-									</span>
-								</div>
 							</div>
-						</a>
+						</article>
 					{/each}
 				</div>
 			{:else}
