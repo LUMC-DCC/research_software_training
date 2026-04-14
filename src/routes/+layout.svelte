@@ -18,6 +18,8 @@
 		{ name: 'Contact', path: '/contact' }
 	];
 
+	const handbookUrl = 'https://lumc-dcc.github.io/research_software_handbook';
+
 	const closeMobileMenu = () => {
 		isMobileMenuOpen = false;
 	};
@@ -50,6 +52,7 @@
 				{#each navItems as item}
 					<a href={withBase(item.path)} class:active={isActive(item.path)}>{item.name}</a>
 				{/each}
+				<a href={handbookUrl} target="_blank" rel="noopener noreferrer">Handbook</a>
 			</nav>
 
 			<button
@@ -73,6 +76,9 @@
 						{item.name}
 					</a>
 				{/each}
+				<a href={handbookUrl} target="_blank" rel="noopener noreferrer" onclick={closeMobileMenu}>
+					Handbook ↗
+				</a>
 			</nav>
 		{/if}
 	</header>
@@ -226,6 +232,7 @@
 	.nav a:hover {
 		background: transparent;
 	}
+
 
 	.mobile-nav a:hover {
 		background: #f1f5f9;
