@@ -36,16 +36,17 @@
 		<div class="team">
 			{#each team as member (member.name)}
 				<div class="member">
-					{#if member.image}
-						<img
-							class="avatar-image"
-							src={withBase(member.image)}
-							alt={`${member.name} placeholder portrait`}
-						/>
-					{:else}
-						<div class="avatar">{member.name.charAt(0)}</div>
-					{/if}
-					<div>
+					<div class="photo-wrap">
+						{#if member.image}
+							<img
+								src={withBase(member.image)}
+								alt={`Portrait of ${member.name}`}
+							/>
+						{:else}
+							<div class="avatar">{member.name.charAt(0)}</div>
+						{/if}
+					</div>
+					<div class="member-info">
 						<div class="name">{member.name}</div>
 						<div class="role">{member.role}</div>
 					</div>
@@ -101,44 +102,57 @@
 		padding-left: 1.2rem;
 	}
 	.team {
-		display: grid;
-		gap: 0.9rem;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 1.2rem;
 		margin-top: 1rem;
 	}
 	.member {
-		display: flex;
-		align-items: center;
-		gap: 0.8rem;
-		padding: 0.8rem;
 		background: #f8fafc;
 		border: 1px solid #e2e8f0;
-		border-radius: 0.55rem;
+		border-radius: 0.75rem;
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+		width: 11rem;
+	}
+	.photo-wrap {
+		width: 100%;
+		aspect-ratio: 3 / 4;
+		overflow: hidden;
+		background: #e2e8f0;
+	}
+	.photo-wrap img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: top;
+		display: block;
 	}
 	.avatar {
-		width: 2.5rem;
-		height: 2.5rem;
-		border-radius: 999px;
+		width: 100%;
+		height: 100%;
 		display: grid;
 		place-items: center;
+		font-size: 3rem;
 		background: #bae6fd;
 		color: #0c4a6e;
 		font-weight: 700;
 	}
-	.avatar-image {
-		width: 2.5rem;
-		height: 2.5rem;
-		border-radius: 999px;
-		object-fit: cover;
-		border: 1px solid #cbd5e1;
-		background: #fff;
+	.member-info {
+		padding: 0.75rem 0.9rem;
 	}
 	.name {
 		font-weight: 700;
+		font-size: 0.95rem;
 		color: #0f172a;
+		line-height: 1.3;
 	}
 	.role {
-		font-size: 0.84rem;
+		font-size: 0.8rem;
 		color: #64748b;
+		margin-top: 0.2rem;
 	}
 	.contact-card {
 		margin-top: 0.8rem;
@@ -162,9 +176,6 @@
 	@media (min-width: 768px) {
 		.container {
 			padding: 0 1.5rem;
-		}
-		.team {
-			grid-template-columns: repeat(2, minmax(0, 1fr));
 		}
 	}
 </style>

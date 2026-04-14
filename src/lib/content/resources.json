@@ -1,31 +1,32 @@
 [
-    {
+  {
     "id": "r1",
     "title": "LUMC Research Software Handbook",
     "abstract": "A handbook on research software best practices, guidelines, and resources, developed by the LUMC Research Software Training Project.",
     "type": "Guide",
+    "theme": "Research Software",
     "source": "Internal",
     "access": "Open Access",
     "tags": ["Research Software", "FAIR4RS"],
     "url": "https://lumc-dcc.github.io/research_software_handbook/"
   },
-
   {
     "id": "r2",
     "title": "Pro Git Book",
     "abstract": "The authoritative guide to Git, available for free online. Covers everything from basics to internals.",
     "type": "Guide",
+    "theme": "Version Control & Collaboration",
     "source": "External",
     "access": "Open Access",
     "tags": ["Version Control", "Git"],
     "url": "https://git-scm.com/book/en/v2"
   },
-
   {
     "id": "r4",
     "title": "The Turing Way",
     "abstract": "A handbook for reproducible, ethical and collaborative data science.",
     "type": "Guide",
+    "theme": "FAIR & Open Science",
     "source": "External",
     "access": "Open Access",
     "tags": ["Open Science", "Reproducibility", "FAIR"],
@@ -36,9 +37,10 @@
     "title": "Software Management Plans",
     "abstract": "A guide for writing a SMP for your grant application.",
     "type": "Guide",
+    "theme": "Research Software",
     "source": "LUMC",
     "access": "Open Access",
-    "tags": ["FAIR", "Management"],
+    "tags": ["FAIR", "Research Software"],
     "url": "https://lumc-dcc.github.io/rs-guidelines/"
   },
   {
@@ -46,9 +48,10 @@
     "title": "FAIR Software Route",
     "abstract": "Step-by-step interactive guide to making your research software FAIR.",
     "type": "Tool",
+    "theme": "Research Software",
     "source": "External",
     "access": "Open Access",
-    "tags": ["FAIR", "Open Science"],
+    "tags": ["FAIR", "Research Software"],
     "url": "https://fair-software.nl"
   }
 ]

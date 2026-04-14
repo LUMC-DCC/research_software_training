@@ -61,6 +61,7 @@ export type Resource = {
 	title: string;
 	abstract: string;
 	type: 'Tutorial' | 'Guide' | 'Tool' | 'Policy';
+	theme: string;
 	tags: string[];
 	url: string;
 	source: 'LUMC' | 'External';
@@ -116,6 +117,7 @@ type RawResource = {
 	title: string;
 	abstract: string;
 	type: 'Tutorial' | 'Guide' | 'Tool' | 'Policy';
+	theme: string;
 	tags: string[];
 	url: string;
 	source: 'Internal (LUMC)' | 'LUMC' | 'External';
@@ -260,6 +262,7 @@ export const resources: Resource[] = (rawResources as RawResource[]).map((resour
 		!resource.title ||
 		!resource.abstract ||
 		!resource.type ||
+		!resource.theme ||
 		!resource.source ||
 		!resource.access ||
 		!resource.url ||
@@ -273,6 +276,7 @@ export const resources: Resource[] = (rawResources as RawResource[]).map((resour
 		title: resource.title,
 		abstract: resource.abstract,
 		type: resource.type,
+		theme: resource.theme,
 		source: normalizeResourceSource(resource.source),
 		access: resource.access,
 		tags: resource.tags,
@@ -289,6 +293,6 @@ export const team: TeamMember[] = [
 	{
 		name: 'dr. ir. Özgün Balaban',
 		role: 'Research Software Trainer',
-		image: '/images/team/ozgun-placeholder.svg'
+		image: '/images/team/ozgun.jpg'
 	}
 ];

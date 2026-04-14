@@ -1,25 +1,17 @@
 <script lang="ts">
 	import { resources, type Resource } from '$lib/data';
 
-	const versionControl = resources.filter((r) => r.tags.includes('Version Control') || r.tags.includes('Git'));
-	const fairOpenScience = resources.filter((r) => r.tags.includes('FAIR') || r.tags.includes('Open Science'));
-	const languages = resources.filter((r) => r.tags.includes('Python') || r.tags.includes('R'));
-	const infrastructure = resources.filter((r) =>
-		r.tags.includes('Infrastructure') || r.tags.includes('HPC')
-	);
-
-	const categorizedIds = new Set(
-		[...versionControl, ...fairOpenScience, ...languages, ...infrastructure].map((resource) => resource.id)
-	);
-	const otherResources = resources.filter((resource) => !categorizedIds.has(resource.id));
-
-	const groups: Array<{ title: string; items: Resource[] }> = [
-		{ title: 'Version Control & Collaboration', items: versionControl },
-		{ title: 'FAIR & Open Science', items: fairOpenScience },
-		{ title: 'Programming (Python & R)', items: languages },
-		{ title: 'Infrastructure & Tools', items: infrastructure },
-		{ title: 'Other Resources', items: otherResources }
-	].filter((group) => group.items.length > 0);
+	// Groups are ordered by first appearance of each theme in resources.json
+	const groups: Array<{ title: string; items: Resource[] }> = [];
+	const seen = new Map<string, Resource[]>();
+	for (const resource of resources) {
+		if (!seen.has(resource.theme)) {
+			const items: Resource[] = [];
+			seen.set(resource.theme, items);
+			groups.push({ title: resource.theme, items });
+		}
+		seen.get(resource.theme)!.push(resource);
+	}
 </script>
 
 <div class="wrap">
