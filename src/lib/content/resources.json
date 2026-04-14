@@ -1,4 +1,14 @@
 [
+    {
+    "id": "r1",
+    "title": "LUMC Research Software Handbook",
+    "abstract": "A handbook on research software best practices, guidelines, and resources, developed by the LUMC Research Software Training Project.",
+    "type": "Guide",
+    "source": "Internal",
+    "access": "Open Access",
+    "tags": ["Research Software", "FAIR4RS"],
+    "url": "https://lumc-dcc.github.io/research_software_handbook/"
+  },
 
   {
     "id": "r2",
