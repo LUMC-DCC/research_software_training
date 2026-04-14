@@ -14,8 +14,7 @@
 		{ name: 'Coding Cafe Agenda', path: '/cafe-agenda' },
 		{ name: 'Resources', path: '/resources' },
 		{ name: 'Calendar', path: '/calendar' },
-		{ name: 'About', path: '/about' },
-		{ name: 'Contact', path: '/contact' }
+		{ name: 'About', path: '/about' }
 	];
 
 	const handbookUrl = 'https://lumc-dcc.github.io/research_software_handbook';

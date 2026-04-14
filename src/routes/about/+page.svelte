@@ -52,6 +52,16 @@
 				</div>
 			{/each}
 		</div>
+
+		<h2>Contact</h2>
+		<p>
+			Questions, suggestions, or just want to get in touch? Reach out by email or find us in person.
+		</p>
+		<div class="contact-card">
+			<p><a href="mailto:o.balaban@lumc.nl">o.balaban@lumc.nl</a></p>
+			<p class="meta">Physical location: S07-16</p>
+			<p class="meta">Microsoft Teams channel coming soon.</p>
+		</div>
 	</div>
 </div>
 
@@ -129,6 +139,25 @@
 	.role {
 		font-size: 0.84rem;
 		color: #64748b;
+	}
+	.contact-card {
+		margin-top: 0.8rem;
+		padding: 1.2rem 1.4rem;
+		background: #f8fafc;
+		border: 1px solid #e2e8f0;
+		border-radius: 0.55rem;
+	}
+	.contact-card p {
+		margin: 0 0 0.4rem;
+	}
+	.contact-card a {
+		color: #0369a1;
+		font-weight: 600;
+		text-decoration: none;
+	}
+	.meta {
+		font-size: 0.9rem;
+		color: #64748b !important;
 	}
 	@media (min-width: 768px) {
 		.container {
