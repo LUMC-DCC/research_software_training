@@ -5,7 +5,7 @@ import rawResources from '$lib/content/resources.json';
 export type DifficultyLevel = 'Beginner' | 'Intermediate' | 'Advanced';
 
 export type TrainingSession = {
-	id: string;
+	id?: string;
 	title?: string;
 	date: string;
 	time?: string;
@@ -228,7 +228,7 @@ export const trainings: Training[] = (rawTrainings as RawTraining[]).map((traini
 
 const trainingEvents: EventItem[] = trainings.flatMap((training) =>
 	training.sessions.map((session, index) => {
-		if (!session.id || !session.date || !session.location) {
+		if (!session.date || !session.location) {
 			throw new Error(`Invalid session in trainings.json for training ${training.id} at index ${index}`);
 		}
 
@@ -237,7 +237,7 @@ const trainingEvents: EventItem[] = trainings.flatMap((training) =>
 		const endTime = session.endTime || parsedRange.endTime;
 
 		return {
-			id: session.id,
+			id: session.id || `${training.id}-s${index + 1}`,
 			type: 'training',
 			title: session.title || training.title,
 			date: startTimeToIso(session.date, startTime),
