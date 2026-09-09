@@ -3,9 +3,13 @@
 	import favicon from '$lib/assets/favicon.svg';
 	import { page } from '$app/state';
 	import { base } from '$app/paths';
+	import { onMount } from 'svelte';
+	import { startAnalytics } from '$lib/analytics';
 
 	let { children } = $props();
 	let isMobileMenuOpen = $state(false);
+
+	onMount(startAnalytics);
 
 	const navItems = [
 		{ name: 'Home', path: '/' },

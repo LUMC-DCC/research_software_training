@@ -1,5 +1,8 @@
 node_modules
 
+# Local tooling
+.claude
+
 # Output
 .output
 .vercel
