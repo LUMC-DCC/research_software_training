@@ -36,16 +36,17 @@
 		"tags": []
 	}, 
 			{
-		"title": "Copilot CLI in Practice",
+		"title": "AI in Your Editor",
+		"subtitle": "Coding with an assistant at your side",
 		"date": "2026-09-08",
 		"startTime": "13:00",
 		"endTime": "14:30",
-		"description": "We will talk about AI CLI tools, Copilot and Claude.",
+		"description": "Opening session of the new Coding Café year. Working with an AI assistant inside your IDE: what it does and what it doesn't, getting set up with Copilot in VS Code, staying in control of what it writes, and keeping research software FAIR.",
 		"location": "T-00-022",
 		"speaker": "Özgün Balaban",
-		"slug": "2026-09-08",
-		"slides": "",
-		"tags": ["AI", "Copilot", "CLI"]
+		"slug": "2026-09-08-ai-in-your-editor",
+		"slides": "https://lumc-dcc.github.io/2026-09-ai-in-your-editor/",
+		"tags": ["AI", "Copilot", "IDE"]
 	}, 
 		{
 		"title": "AI assisted coding: examples and discussion",
@@ -80,7 +81,7 @@
 		"location": "T-05-038",
 		"speaker": "Özgün Balaban",
 		"slug": "2025-12-18-building-better-research-software-together",
-		"slides": "https://lumc-dcc.github.io/2025_12_18_codingcafe/1",
+		"slides": "https://lumc-dcc.github.io/2025_12_18_codingcafe/",
 		"tags": ["research-software"]
 	}
 ]
