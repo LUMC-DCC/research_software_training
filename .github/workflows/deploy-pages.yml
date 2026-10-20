@@ -31,7 +31,8 @@ jobs:
         run: npm ci
 
       - name: Install GitHub Pages adapter
-        run: npm install --no-save -D @sveltejs/adapter-static
+        # Pinned: adapter-static 4.x needs SvelteKit 3; this site is on SvelteKit 2
+        run: npm install --no-save -D @sveltejs/adapter-static@^3
 
       - name: Build
         env:
