@@ -24,16 +24,18 @@
 		"tags": []
 	}, 
 			{
-		"title": "Tentative",
+		"title": "Presenting in the AI Age",
+		"subtitle": "Slidev, data viz and interactive decks",
 		"date": "2026-10-20",
 		"startTime": "13:00",
 		"endTime": "14:30",
-		"description": "coming soon",
-		"location": "coming soon",
-		"speaker": "coming soon",
-		"slug": "2026-10-20",
-		"slides": "",
-		"tags": []
+		"description": "Making things with an AI assistant, with slides as the test case. We turn a plain markdown file into a deck with Slidev in VS Code and with Quarto in RStudio, let Claude do the structure, layout and charts, and use git to check every change and go back when it goes wrong.",
+		"location": "T-00-022",
+		"speaker": "Özgün Balaban",
+		"slug": "2026-10-20-presenting-in-the-ai-age",
+		"slides": "https://lumc-dcc.github.io/2026-10-presenting-in-the-ai-age/",
+		"repo": "https://github.com/LUMC-DCC/2026-10-presenting-in-the-ai-age",
+		"tags": ["AI", "Slidev", "Quarto", "presenting"]
 	}, 
 			{
 		"title": "AI in Your Editor",
