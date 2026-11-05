@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { events } from '$lib/data';
+	import { events, team, type EventItem } from '$lib/data';
 	import { base } from '$app/paths';
 
 	type ViewMode = 'list' | 'grid';
@@ -36,6 +36,21 @@
 			hour: 'numeric',
 			minute: '2-digit'
 		});
+
+	// An upcoming session gets a session page link once it has real details.
+	const hasDetails = (event: EventItem) =>
+		Boolean(event.slug) &&
+		event.title.trim().toLowerCase() !== 'tentative' &&
+		(event.description ?? '').trim().toLowerCase() !== 'coming soon';
+
+	// Speaker portrait: explicit speakerImage, else the matching team member's photo.
+	const speakerPhoto = (event: EventItem) => {
+		if (event.speakerImage) return withBase(event.speakerImage);
+		const speaker = event.speaker?.trim();
+		if (!speaker) return undefined;
+		const member = team.find((m) => m.image && !m.image.endsWith('.svg') && m.name.includes(speaker));
+		return member?.image ? withBase(member.image) : undefined;
+	};
 
 	const agendaHref = (slug?: string, fallback?: string) =>
 		slug ? withBase(`/cafe/${slug}`) : fallback || withBase('/contact');
@@ -95,7 +110,13 @@
 			{#if upcoming.length}
 				<div class={viewMode === 'grid' ? 'event-grid' : 'event-list'}>
 					{#each upcoming as event (event.id)}
-						<article class:card-grid-view={viewMode === 'grid'} class="agenda-card">
+						<svelte:element
+							this={hasDetails(event) ? 'a' : 'article'}
+							href={hasDetails(event) ? agendaHref(event.slug) : undefined}
+							class:card-grid-view={viewMode === 'grid'}
+							class:agenda-card--linked={hasDetails(event)}
+							class="agenda-card"
+						>
 							<div class="agenda-card__rail">
 								<span class="agenda-card__badge">{formatDate(event.date)}</span>
 								{#if event.time}
@@ -125,7 +146,11 @@
 
 							<div class="agenda-card__aside">
 								<div class="agenda-card__speaker">
-									<div class="agenda-card__avatar" aria-hidden="true">CC</div>
+									{#if speakerPhoto(event)}
+										<img class="agenda-card__avatar agenda-card__avatar--photo" src={speakerPhoto(event)} alt="" />
+									{:else}
+										<div class="agenda-card__avatar" aria-hidden="true">CC</div>
+									{/if}
 									<div>
 										<p class="agenda-card__speaker-label">Speaker</p>
 										{#if event.speaker}
@@ -135,8 +160,22 @@
 										{/if}
 									</div>
 								</div>
+
+								{#if hasDetails(event)}
+									<div class="agenda-card__action">
+										<div class="agenda-card__action-copy">
+											<p class="agenda-card__action-label">Session page</p>
+											<p class="agenda-card__action-title">See the details</p>
+										</div>
+										<span class="agenda-card__action-icon" aria-hidden="true">
+											<svg viewBox="0 0 24 24">
+												<path d="M7 17L17 7M17 7H8M17 7V16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+											</svg>
+										</span>
+									</div>
+								{/if}
 							</div>
-						</article>
+						</svelte:element>
 					{/each}
 				</div>
 			{:else}
@@ -176,7 +215,11 @@
 
 							<div class="agenda-card__aside">
 								<div class="agenda-card__speaker">
-									<div class="agenda-card__avatar agenda-card__avatar--muted" aria-hidden="true">CC</div>
+									{#if speakerPhoto(event)}
+										<img class="agenda-card__avatar agenda-card__avatar--photo" src={speakerPhoto(event)} alt="" />
+									{:else}
+										<div class="agenda-card__avatar agenda-card__avatar--muted" aria-hidden="true">CC</div>
+									{/if}
 									<div>
 										<p class="agenda-card__speaker-label">Speaker</p>
 										{#if event.speaker}
@@ -517,6 +560,18 @@
 		font-size: 0.78rem;
 		font-weight: 800;
 		letter-spacing: 0.08em;
+	}
+
+	.agenda-card__avatar--photo {
+		object-fit: cover;
+		object-position: center 30%;
+		background: #e2e8f0;
+		box-shadow: 0 0 0 2px #fff, 0 0 0 3px #bae6fd;
+	}
+
+	.agenda-card--linked {
+		color: inherit;
+		text-decoration: none;
 	}
 
 	.agenda-card__avatar--muted {

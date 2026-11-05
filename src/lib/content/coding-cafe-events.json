@@ -12,16 +12,17 @@
 		"tags": []
 	}, 
 			{
-		"title": "Tentative",
+		"title": "Document your code",
+		"subtitle": "so others can use it",
 		"date": "2026-11-17",
 		"startTime": "13:00",
 		"endTime": "14:30",
-		"description": "coming soon",
-		"location": "coming soon",
-		"speaker": "coming soon",
-		"slug": "2026-11-17",
+		"description": "Documenting your research code, so that a colleague (or you, a year from now) can understand and run it. Write a README with what the code does, how to install and run it, and what input and output to expect; learn what belongs in the README, docstrings and comments; and use an AI assistant to draft documentation, then check what it gets wrong. Bring your laptop and your own code (code only, no data). No Git experience needed.",
+		"location": "J-01-128",
+		"speaker": "Özgün Balaban",
+		"slug": "2026-11-17-document-your-code",
 		"slides": "",
-		"tags": []
+		"tags": ["documentation", "README", "AI"]
 	}, 
 			{
 		"title": "Presenting in the AI Age",

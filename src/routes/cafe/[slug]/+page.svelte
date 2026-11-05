@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { base } from '$app/paths';
+	import { team } from '$lib/data';
 
 	let { data } = $props();
 
@@ -13,6 +14,14 @@
 		day: eventDate.toLocaleDateString(undefined, { day: '2-digit' }),
 		month: eventDate.toLocaleDateString(undefined, { month: 'long' }),
 		year: eventDate.toLocaleDateString(undefined, { year: 'numeric' })
+	});
+	const speakerPhoto = $derived.by(() => {
+		if (event.speakerImage) return withBase(event.speakerImage);
+		const speaker = event.speaker?.trim();
+		const member = speaker
+			? team.find((m) => m.image && !m.image.endsWith('.svg') && m.name.includes(speaker))
+			: undefined;
+		return member?.image ? withBase(member.image) : undefined;
 	});
 	const slidesUrl = $derived(event.slides);
 	const hasSlides = $derived(Boolean(slidesUrl));
@@ -53,9 +62,18 @@
 							<span class="mb-1 block text-[0.7rem] uppercase tracking-[0.14em] text-slate-500"
 								>Speaker</span
 							>
-							<p class="m-0 text-base leading-[1.35] font-bold text-slate-900">
-								{isPlaceholder ? 'To be announced' : event.speaker ?? 'TBA'}
-							</p>
+							<div class="flex items-center gap-2.5">
+								{#if speakerPhoto && !isPlaceholder}
+									<img
+										class="h-10 w-10 shrink-0 rounded-full object-cover object-[center_30%] shadow-[0_0_0_2px_#fff,0_0_0_3px_#bae6fd]"
+										src={speakerPhoto}
+										alt=""
+									/>
+								{/if}
+								<p class="m-0 text-base leading-[1.35] font-bold text-slate-900">
+									{isPlaceholder ? 'To be announced' : event.speaker ?? 'TBA'}
+								</p>
+							</div>
 						</div>
 					</div>
 
@@ -215,6 +233,15 @@
 		text-decoration-thickness: 0.08em;
 		text-underline-offset: 0.16em;
 	}
+	.markdown-content :global(img) {
+		display: block;
+		width: 100%;
+		max-width: 28rem;
+		height: auto;
+		border-radius: 0.75rem;
+		box-shadow: 0 10px 24px rgb(15 23 42 / 0.12);
+	}
+
 	.markdown-content :global(strong) {
 		color: #0f172a;
 		font-weight: 800;

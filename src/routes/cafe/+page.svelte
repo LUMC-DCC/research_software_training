@@ -161,7 +161,7 @@
 						<img class="cafe-logo" src={cafeLogoSrc} alt="LUMC Coding Cafe" />
 						<h1>Coding Cafe</h1>
 						<p class="body body-large">
-							A monthly meetup where we talk about research software and code together.
+							A monthly meetup where we talk about research software, discuss questions and solve problems together.
 						</p>
 						<div class="actions">
 							<a class="btn btn-primary" href={withBase('/cafe-agenda')}>Explore sessions ↓</a>
@@ -227,7 +227,7 @@
 						<p class="body">Join even if the topic is new to you.</p>
 						<div class="actions">
 							<a class="btn btn-primary" href={withBase('/cafe-agenda')}>Join the next session</a>
-							<a class="btn btn-secondary" href={withBase('/cafe-agenda')}>See all events</a>
+							<a class="btn btn-secondary" href={withBase('/stay-informed')}>Stay informed</a>
 						</div>
 					</div>
 

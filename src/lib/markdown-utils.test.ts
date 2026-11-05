@@ -39,6 +39,12 @@ describe('escapeHtml', () => {
 // --- renderInlineMarkdown ---
 
 describe('renderInlineMarkdown', () => {
+	it('renders images before links', () => {
+		expect(renderInlineMarkdown('![A cup](../img/cup.jpg)')).toBe(
+			'<img src="../img/cup.jpg" alt="A cup" loading="lazy" />'
+		);
+	});
+
 	it('renders bold', () => {
 		expect(renderInlineMarkdown('**bold**')).toBe('<strong>bold</strong>');
 	});

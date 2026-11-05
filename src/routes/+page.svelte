@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { NWO_FUNDING_LINE } from '$lib/links';
 	import { base } from '$app/paths';
 	import { onMount } from 'svelte';
 
@@ -138,7 +139,9 @@
 						<div class="actions">
 							<a class="btn btn-primary" href={withBase('/training')}>Explore trainings ↓</a>
 							<a class="btn btn-secondary" href={withBase('/cafe')}>Join Coding Cafe</a>
+							<a class="btn btn-secondary" href={withBase('/stay-informed')}>Stay informed</a>
 						</div>
+						<p class="funding">{NWO_FUNDING_LINE}</p>
 					</div>
 				</div>
 			</div>
@@ -421,6 +424,13 @@
 
 	.btn:hover {
 		transform: translateY(-1px);
+	}
+
+	.funding {
+		margin: 1.4rem 0 0;
+		font-size: 0.82rem;
+		line-height: 1.5;
+		color: #64748b;
 	}
 
 	.btn-primary {

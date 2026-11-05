@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { team } from '$lib/data';
 	import { base } from '$app/paths';
+	import { NWO_FUNDING_LINE, SIGNUP_FORM_URL } from '$lib/links';
 
 	const withBase = (path: string) => (path.startsWith('http') ? path : `${base}${path}`);
 </script>
@@ -13,6 +14,7 @@
 			The LUMC Research Software Training program is dedicated to improving the quality,
 			reproducibility, and reusability of software produced for medical research.
 		</p>
+		<p class="funding">{NWO_FUNDING_LINE}</p>
 
 		<h2>Why it matters</h2>
 		<p>
@@ -61,8 +63,18 @@
 		<div class="contact-card">
 			<p><a href="mailto:o.balaban@lumc.nl">o.balaban@lumc.nl</a></p>
 			<p class="meta">Physical location: S07-16</p>
-			<p class="meta">Microsoft Teams channel coming soon.</p>
 		</div>
+
+		<h2>Stay informed</h2>
+		<p>
+			Hear about new courses, workshops and Coding Café sessions by e-mail, join our Teams
+			community, or both.
+		</p>
+		<p>
+			<a class="signup" href={SIGNUP_FORM_URL} target="_blank" rel="noopener noreferrer"
+				>Join our mailing list or Teams community →</a
+			>
+		</p>
 	</div>
 </div>
 
@@ -118,17 +130,20 @@
 		width: 11rem;
 	}
 	.photo-wrap {
-		width: 100%;
+		/* even inset on all four sides of the card frame */
+		margin: 0.6rem;
 		aspect-ratio: 3 / 4;
 		overflow: hidden;
+		border-radius: 0.5rem;
 		background: #e2e8f0;
 	}
 	.photo-wrap img {
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
-		object-position: top;
+		object-position: center;
 		display: block;
+		margin: 0; /* .prose gives every img a 2em top/bottom margin */
 	}
 	.avatar {
 		width: 100%;
@@ -153,6 +168,20 @@
 		font-size: 0.8rem;
 		color: #64748b;
 		margin-top: 0.2rem;
+	}
+	.funding {
+		margin-top: -0.5rem;
+		font-size: 0.9rem;
+		color: #64748b;
+	}
+	.signup {
+		display: inline-block;
+		padding: 0.7rem 1.1rem;
+		border-radius: 999px;
+		background: #0369a1;
+		color: #fff !important;
+		font-weight: 700;
+		text-decoration: none !important;
 	}
 	.contact-card {
 		margin-top: 0.8rem;
